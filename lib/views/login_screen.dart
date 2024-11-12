@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -11,6 +12,13 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailcontroller = TextEditingController();
   TextEditingController passwordcontroller = TextEditingController();
   bool rememberme = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadPref();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +56,25 @@ class _LoginScreenState extends State<LoginScreen> {
                     value: rememberme,
                     onChanged: (bool? value) {
                       setState(() {
+                        String email = emailcontroller.text;
+                        String pass = passwordcontroller.text;
+                        if (value!) {
+                          if (email.isNotEmpty && pass.isNotEmpty) {
+                            storeSharedPrefs(value, email, pass);
+                          } else {
+                            rememberme = false;
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text("Please enter your credentials"),
+                              backgroundColor: Colors.red,
+                            ));
+                            return;
+                          }
+                        } else {
+                          email = "";
+                          pass = "";
+                          storeSharedPrefs(value, email, pass);
+                        }
                         rememberme = value ?? false;
                         setState(() {});
                       });
@@ -85,5 +112,39 @@ class _LoginScreenState extends State<LoginScreen> {
       ));
       return;
     }
+  }
+
+  Future<void> storeSharedPrefs(bool value, String email, String pass) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (value) {
+      prefs.setString("email", email);
+      prefs.setString("password", pass);
+      prefs.setBool("rememberme", value);
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Preferences Stored"),
+        backgroundColor: Colors.green,
+        duration: Duration(seconds: 1),
+      ));
+    } else {
+      prefs.setString("email", email);
+      prefs.setString("password", pass);
+      prefs.setBool("rememberme", value);
+      emailcontroller.text = "";
+      passwordcontroller.text = "";
+      setState(() {});
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Preferences Removed"),
+        backgroundColor: Colors.red,
+        duration: Duration(seconds: 1),
+      ));
+    }
+  }
+
+  Future<void> loadPref() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    emailcontroller.text = prefs.getString("email")!;
+    passwordcontroller.text = prefs.getString("password")!;
+    rememberme = prefs.getBool("rememberme")!;
+    setState(() {});
   }
 }
