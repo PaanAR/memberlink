@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+
+import 'main_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -112,6 +117,28 @@ class _LoginScreenState extends State<LoginScreen> {
       ));
       return;
     }
+    http.post(Uri.parse("http://10.19.21.242/mymemberlink/api/login_admin.php"),
+        body: {"email": email, "password": password}).then((response) {
+      print(response.statusCode);
+      print(response.body);
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+        if (data['status'] == "success") {
+          // User user = User.fromJson(data['data']);
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("Login Success"),
+            backgroundColor: Color.fromARGB(255, 12, 12, 12),
+          ));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (content) => const MainScreen()));
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("Login Failed"),
+            backgroundColor: Colors.red,
+          ));
+        }
+      }
+    });
   }
 
   Future<void> storeSharedPrefs(bool value, String email, String pass) async {
