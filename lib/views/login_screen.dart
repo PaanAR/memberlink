@@ -1,10 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
+import '../myconfig.dart';
 import 'main_screen.dart';
+import 'register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -100,7 +103,19 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               GestureDetector(
                 child: const Text("Forgot Password?"),
-              )
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (content) => const RegisterScreen()));
+                },
+                child: const Text("Create new account?"),
+              ),
             ],
           ),
         ),
@@ -117,10 +132,11 @@ class _LoginScreenState extends State<LoginScreen> {
       ));
       return;
     }
-    http.post(Uri.parse("http://10.19.21.242/mymemberlink/api/login_admin.php"),
+    http.post(
+        Uri.parse("${MyConfig.servername}/mymemberlink/api/login_admin.php"),
         body: {"email": email, "password": password}).then((response) {
-      print(response.statusCode);
-      print(response.body);
+      // print(response.statusCode);
+      // print(response.body);
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
         if (data['status'] == "success") {
