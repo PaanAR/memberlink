@@ -1,7 +1,5 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -133,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
     http.post(
-        Uri.parse("${MyConfig.servername}/mymemberlink/api/login_admin.php"),
+        Uri.parse("${MyConfig.servername}/mymemberlink/api/login_user.php"),
         body: {"email": email, "password": password}).then((response) {
       // print(response.statusCode);
       // print(response.body);
