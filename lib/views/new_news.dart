@@ -23,7 +23,7 @@ class _NewNewsScreenState extends State<NewNewsScreen> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(30.0),
           child: Column(
             children: [
               TextField(
@@ -115,7 +115,7 @@ class _NewNewsScreenState extends State<NewNewsScreen> {
     String title = titleController.text;
     String details = detailsController.text;
     http.post(
-        Uri.parse("${MyConfig.servername}/memberlink/api/insert_news.php"),
+        Uri.parse("${MyConfig.servername}/mymemberlink/api/insert_news.php"),
         body: {"title": title, "details": details}).then((response) {
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);

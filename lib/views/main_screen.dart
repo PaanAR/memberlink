@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mymemberlinks/views/new_news.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -8,6 +9,8 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  TextEditingController titleController = TextEditingController();
+  TextEditingController detailsController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,35 +29,51 @@ class _MainScreenState extends State<MainScreen> {
                 onTap: () {},
                 title: const Text("Newsletter"),
               ),
-              const ListTile(
-                title: Text("Events"),
+              ListTile(
+                onTap: () {},
+                title: const Text("Events"),
               ),
-              const ListTile(
-                title: Text("Members"),
+              ListTile(
+                onTap: () {},
+                title: const Text("Members"),
               ),
-              const ListTile(
-                title: Text("Vetting"),
+              ListTile(
+                onTap: () {},
+                title: const Text("Vetting"),
               ),
-              const ListTile(
-                title: Text("Resources"),
+              ListTile(
+                onTap: () {},
+                title: const Text("Resources"),
               ),
-              const ListTile(
-                title: Text("Payments"),
+              ListTile(
+                onTap: () {},
+                title: const Text("Payments"),
               ),
-              const ListTile(
-                title: Text("Products"),
+              ListTile(
+                onTap: () {},
+                title: const Text("Products"),
               ),
-              const ListTile(
-                title: Text("Mailings"),
+              ListTile(
+                onTap: () {},
+                title: const Text("Mailings"),
               ),
-              const ListTile(
-                title: Text("Committee"),
+              ListTile(
+                onTap: () {},
+                title: const Text("Committee"),
               ),
-              const ListTile(
-                title: Text("Settings"),
+              ListTile(
+                onTap: () {},
+                title: const Text("Settings"),
               ),
             ],
           ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (content) => const NewNewsScreen()));
+          },
+          child: const Icon(Icons.add),
         ));
   }
 }
