@@ -15,15 +15,22 @@ class NewNewsScreen extends StatefulWidget {
 class _NewNewsScreenState extends State<NewNewsScreen> {
   TextEditingController titleController = TextEditingController();
   TextEditingController detailsController = TextEditingController();
+
+  late double screenWidth, screenHeight;
   @override
   Widget build(BuildContext context) {
+    screenHeight = MediaQuery.of(context).size.height;
+    screenWidth = MediaQuery.of(context).size.width;
+    print(screenHeight);
+    print(screenWidth);
     return Scaffold(
       appBar: AppBar(
         title: const Text("New Newsletter"),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(30.0),
+          padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
               TextField(
@@ -36,14 +43,17 @@ class _NewNewsScreenState extends State<NewNewsScreen> {
               const SizedBox(
                 height: 10,
               ),
-              TextField(
-                controller: detailsController,
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    hintText: "News Details"),
-                maxLines: 18,
+              SizedBox(
+                height: screenHeight * 0.7,
+                child: TextField(
+                  controller: detailsController,
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      hintText: "News Details"),
+                  maxLines: screenHeight ~/ 35,
+                ),
               ),
               const SizedBox(
                 height: 20,
