@@ -16,64 +16,60 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 236, 234, 234),
-      appBar: AppBar(
-          title: const Text(
-            "Forgot Password",
-            style: TextStyle(color: Colors.white),
-          ),
-          backgroundColor: Colors.blue[800],
-          iconTheme: const IconThemeData(color: Colors.white)),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Card(
-            color: const Color.fromARGB(230, 154, 186, 219),
-            elevation: 8,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.grey.shade100,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.shade300,
+                  blurRadius: 20,
+                  offset: const Offset(0, 10),
+                ),
+              ],
             ),
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Form(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    TextFormField(
-                      controller: emailController,
-                      decoration: InputDecoration(
-                        prefixIcon:
-                            Icon(Icons.email_outlined, color: Colors.blue[800]),
-                        hintText: "Email",
-                        filled: true,
-                        fillColor: Colors.white,
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 18, horizontal: 12),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none,
-                        ),
-                      ),
-                      validator: (val) => val!.isEmpty ||
-                              !val.contains("@") ||
-                              !val.contains(".")
-                          ? "Enter a valid email"
-                          : null,
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.lock_reset,
+                    size: 100,
+                    color: Colors.grey.shade700,
+                  ),
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Forgot Password',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
                     ),
-                    const SizedBox(height: 15),
-                    MaterialButton(
-                      elevation: 5,
-                      onPressed: sendOTP,
-                      minWidth: double.infinity,
-                      height: 50,
-                      color: Colors.blue[800],
-                      child: const Text(
-                        "Reset Password",
-                        style: TextStyle(color: Colors.white, fontSize: 18),
-                      ),
+                  ),
+                  const SizedBox(height: 40),
+                  _buildTextField(
+                    emailController,
+                    'Email',
+                    Icons.email_outlined,
+                  ),
+                  const SizedBox(height: 20),
+                  _buildResetButton(),
+                  const SizedBox(height: 20),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text(
+                      "Back to Login",
+                      style: TextStyle(color: Colors.grey),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -82,18 +78,51 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     );
   }
 
-  String? validatePassword(String value) {
-    String pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$';
-    RegExp regExp = RegExp(pattern);
-    if (value.isEmpty) {
-      return 'Please enter password';
-    } else {
-      if (!regExp.hasMatch(value)) {
-        return 'Please enter valid password. Password must be at least 6 characters long, include an uppercase letter, a lowercase letter, a number, and a special character (e.g., @, #, etc.).';
-      } else {
-        return null;
-      }
-    }
+  Widget _buildTextField(
+      TextEditingController controller, String label, IconData icon) {
+    return TextField(
+      controller: controller,
+      keyboardType: TextInputType.emailAddress,
+      style: const TextStyle(color: Colors.black87),
+      decoration: InputDecoration(
+        prefixIcon: Icon(icon, color: Colors.grey.shade600),
+        labelText: label,
+        labelStyle: const TextStyle(color: Colors.grey),
+        filled: true,
+        fillColor: Colors.grey.shade200,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15),
+          borderSide: BorderSide.none,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15),
+          borderSide: BorderSide.none,
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15),
+          borderSide: const BorderSide(color: Colors.black87, width: 2),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildResetButton() {
+    return ElevatedButton(
+      onPressed: sendOTP,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.grey.shade300,
+        padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        elevation: 8,
+        shadowColor: Colors.grey.shade400,
+      ),
+      child: const Text(
+        'Reset Password',
+        style: TextStyle(fontSize: 18, color: Colors.black87),
+      ),
+    );
   }
 
   void sendOTP() async {
@@ -111,12 +140,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (content) => VerificationScreen(email: emailController.text),
+          builder: (context) => VerificationScreen(email: emailController.text),
         ),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text("OTP failed sent"), backgroundColor: Colors.red));
+        content: Text("OTP failed to send"),
+        backgroundColor: Colors.red,
+      ));
     }
   }
 }

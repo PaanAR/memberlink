@@ -13,125 +13,133 @@ class VerificationScreen extends StatefulWidget {
 }
 
 class _VerificationScreenState extends State<VerificationScreen> {
-  TextEditingController otpController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
   final pinController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 236, 234, 234),
-      appBar: AppBar(
-          title:
-              const Text("Verify OTP", style: TextStyle(color: Colors.white)),
-          backgroundColor: Colors.blue[800],
-          iconTheme: const IconThemeData(color: Colors.white)),
-      body: SingleChildScrollView(
+      body: Center(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // ignore: prefer_const_constructors
-              SizedBox(height: 40),
-              Text(
-                'Enter your Verification code',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blue[800],
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.grey.shade100,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.shade300,
+                  blurRadius: 20,
+                  offset: const Offset(0, 10),
                 ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 10),
-              const Text(
-                'We will send you an One Time Passcode via this email address',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.black54,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 20),
-
-              Pinput(
-                controller: pinController,
-                length: 4,
-                showCursor: true,
-                defaultPinTheme: PinTheme(
-                  width: 60,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  textStyle: const TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-              // ignore: prefer_const_constructors
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+              ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Spacer(),
+                  Icon(
+                    Icons.verified,
+                    size: 100,
+                    color: Colors.grey.shade700,
+                  ),
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Verify OTP',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
+                    ),
+                  ),
+                  const SizedBox(height: 40),
+                  const Text(
+                    'Enter the OTP sent to your email',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.black54,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 20),
+                  Pinput(
+                    controller: pinController,
+                    length: 4,
+                    showCursor: true,
+                    defaultPinTheme: PinTheme(
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      textStyle: const TextStyle(
+                        fontSize: 20,
+                        color: Colors.black87,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
                   GestureDetector(
-                    onTap: () {},
-                    child: Text(
+                    onTap: () {
+                      // Handle Resend OTP functionality
+                    },
+                    child: const Text(
                       "Resend Code",
                       style: TextStyle(
                         fontSize: 13,
-                        color: Colors.blue[800],
+                        color: Colors.blue,
                         decoration: TextDecoration.underline,
-                        decorationColor: Colors.blue[800],
+                        decorationColor: Colors.blue,
                         decorationThickness: 1,
                       ),
                     ),
                   ),
-                  const SizedBox(width: 20),
+                  const SizedBox(height: 30),
+                  ElevatedButton(
+                    onPressed: () async {
+                      if (EmailOTP.verifyOTP(otp: pinController.text)) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("OTP verified successfully"),
+                            backgroundColor: Colors.green,
+                          ),
+                        );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                ResetPasswordScreen(email: widget.email),
+                          ),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Invalid OTP"),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.grey.shade300,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 50, vertical: 15),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      elevation: 8,
+                      shadowColor: Colors.grey.shade400,
+                    ),
+                    child: const Text(
+                      'Verify OTP',
+                      style: TextStyle(fontSize: 18, color: Colors.black87),
+                    ),
+                  ),
                 ],
               ),
-              SizedBox(height: 30),
-              ElevatedButton(
-                onPressed: () async {
-                  if (EmailOTP.verifyOTP(otp: pinController.text)) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                          content: Text("OTP verified successfully"),
-                          backgroundColor: Colors.green),
-                    );
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                ResetPasswordScreen(email: widget.email)));
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                          content: Text("Invalid OTP"),
-                          backgroundColor: Colors.red),
-                    );
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue[800],
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  side: const BorderSide(color: Colors.black, width: 0.1),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  elevation: 4,
-                  shadowColor: Colors.grey.withOpacity(0.5),
-                ),
-                child: const Text(
-                  'Verify OTP',
-                  style: TextStyle(fontSize: 16, color: Colors.white),
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),
