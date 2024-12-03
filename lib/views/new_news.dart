@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:google_fonts/google_fonts.dart';
 import '../myconfig.dart';
 
 class NewNewsScreen extends StatefulWidget {
@@ -24,33 +24,50 @@ class _NewNewsScreenState extends State<NewNewsScreen> {
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: const Text("New Newsletter"),
+        title: Text(
+          "New Newsletter",
+          style: GoogleFonts.monoton(color: const Color(0xFFF4F3EE)),
+        ),
         centerTitle: true,
+        backgroundColor: const Color(0xFF463F3A), // Dark brown
+        iconTheme: const IconThemeData(
+          color: Color(0xFFF4F3EE), // Light cream for back arrow
+        ),
       ),
+      backgroundColor: const Color(0xFFF4F3EE), // Light cream background
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
               TextField(
-                  controller: titleController,
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                      hintText: "News Title")),
+                controller: titleController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
+                  filled: true,
+                  fillColor: Color(0xFFBCB8B1), // Greyish beige
+                  hintText: "News Title",
+                  hintStyle: TextStyle(color: Color(0xFF8A817C)), // Taupe
+                ),
+              ),
               const SizedBox(
                 height: 10,
               ),
               SizedBox(
-                height: screenHeight * 0.7,
+                height: screenHeight * 0.6,
                 child: TextField(
                   controller: detailsController,
                   decoration: const InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                      hintText: "News Details"),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    filled: true,
+                    fillColor: Color(0xFFBCB8B1), // Greyish beige
+                    hintText: "News Details",
+                    hintStyle: TextStyle(color: Color(0xFF8A817C)), // Taupe
+                  ),
                   maxLines: screenHeight ~/ 35,
                 ),
               ),
@@ -58,24 +75,30 @@ class _NewNewsScreenState extends State<NewNewsScreen> {
                 height: 20,
               ),
               MaterialButton(
-                  elevation: 10,
-                  onPressed: onInsertNewsDialog,
-                  minWidth: 400,
-                  height: 50,
-                  color: Colors.purple[800],
-                  child: const Text("Insert",
-                      style: TextStyle(color: Colors.white))),
+                elevation: 10,
+                onPressed: onInsertNewsDialog,
+                minWidth: 400,
+                height: 50,
+                color: const Color(0xFFE0AFA0), // Peachy beige
+                child: const Text(
+                  "Insert",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
               const SizedBox(
                 height: 10,
               ),
               MaterialButton(
-                  elevation: 10,
-                  onPressed: clearFields,
-                  minWidth: 400,
-                  height: 50,
-                  color: Colors.grey[600],
-                  child: const Text("Clear All",
-                      style: TextStyle(color: Colors.white))),
+                elevation: 10,
+                onPressed: clearFields,
+                minWidth: 400,
+                height: 50,
+                color: const Color(0xFF8A817C), // Taupe
+                child: const Text(
+                  "Clear All",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
             ],
           ),
         ),
@@ -87,6 +110,7 @@ class _NewNewsScreenState extends State<NewNewsScreen> {
     if (titleController.text.isEmpty || detailsController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Please enter title and details"),
+        backgroundColor: Colors.red,
       ));
       return;
     }

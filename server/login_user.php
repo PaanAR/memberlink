@@ -2,8 +2,8 @@
 // Suppress all error reporting for cleaner output in production
 // error_reporting(0);
 
-// Check if required POST variables are set
-if (!isset($_POST['email'], $_POST['password'])) {
+// Check if 'email' and 'password' are set in the POST request
+if (!isset($_POST['email']) || !isset($_POST['password'])) {
     $response = array('status' => 'failed', 'data' => null); // Prepare failure response
     sendJsonResponse($response); // Send the response as JSON
     die; // Terminate script execution
@@ -12,17 +12,17 @@ if (!isset($_POST['email'], $_POST['password'])) {
 // Include database connection file to establish connection with the database
 include_once("dbconnect.php");
 
-// Retrieve the values from the POST request
+// Retrieve the 'email' and 'password' values from the POST request
 $email = $_POST['email'];
-$password = sha1($_POST['password']); // Hash the password using SHA-1 for security
+$password = sha1($_POST['password']); // Hash the password using SHA-1 for comparison
 
-// SQL query to insert a new admin into `tbl_admins`
-$sqlregister = "INSERT INTO `tbl_admins` (`admin_email`, `admin_pass`) VALUES ('$email', '$password')";
-$result = $conn->query($sqlregister); // Execute the query
+// SQL query to check if a user with the provided email and hashed password exists in `tbl_admins`
+$sqllogin = "SELECT `user_email`, `user_pass` FROM `tbl_users` WHERE `user_email` = '$email' AND `user_pass` = '$password'";
+$result = $conn->query($sqllogin); // Execute the query
 
-// Check if the query was successful
-if ($result === TRUE) {
-    $response = array('status' => 'success', 'data' => null); // Prepare success response
+// Check if the query returned any rows (i.e., the user exists and credentials are correct)
+if ($result->num_rows > 0) {
+    $response = array('status' => 'success', 'data' => null); // Prepare success response with user data
 } else {
     $response = array('status' => 'failed', 'data' => null); // Prepare failure response
 }

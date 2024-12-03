@@ -30,18 +30,19 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF4F3EE), // Light cream background
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.grey.shade100,
+              color: const Color(0xFFBCB8B1), // Greyish beige
               borderRadius: BorderRadius.circular(20),
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(
-                  color: Colors.grey.shade300,
+                  color: Color(0xFF8A817C), // Taupe
                   blurRadius: 20,
-                  offset: const Offset(0, 10),
+                  offset: Offset(0, 10),
                 ),
               ],
             ),
@@ -61,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: GoogleFonts.monoton(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black87,
+                      color: const Color(0xFF463F3A), // Dark brown
                     ),
                   ),
                   const SizedBox(height: 40),
@@ -93,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                     child: const Text(
                       "Forgot Password?",
-                      style: TextStyle(color: Colors.grey),
+                      style: TextStyle(color: Color(0xFF463F3A)), // Taupe
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -108,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                     child: const Text(
                       "Create New Account?",
-                      style: TextStyle(color: Colors.grey),
+                      style: TextStyle(color: Color(0xFF463F3A)), // Taupe
                     ),
                   ),
                 ],
@@ -126,15 +127,15 @@ class _LoginScreenState extends State<LoginScreen> {
     return TextField(
       controller: controller,
       obscureText: isPassword ? !_isPasswordVisible : false,
-      style: const TextStyle(color: Colors.black87),
+      style: const TextStyle(color: Color(0xFF463F3A)), // Dark brown
       keyboardType:
           isPassword ? TextInputType.text : TextInputType.emailAddress,
       decoration: InputDecoration(
-        prefixIcon: Icon(icon, color: Colors.grey.shade600),
+        prefixIcon: Icon(icon, color: const Color(0xFF8A817C)), // Taupe
         labelText: label,
-        labelStyle: const TextStyle(color: Colors.grey),
+        labelStyle: const TextStyle(color: Color(0xFF8A817C)), // Taupe
         filled: true,
-        fillColor: Colors.grey.shade200,
+        fillColor: const Color(0xFFF4F3EE), // Peachy beige
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
           borderSide: BorderSide.none,
@@ -145,7 +146,8 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
-          borderSide: const BorderSide(color: Colors.black87, width: 2),
+          borderSide: const BorderSide(
+              color: Color(0xFF463F3A), width: 2), // Dark brown
         ),
         suffixIcon: isPassword
             ? GestureDetector(
@@ -156,7 +158,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 },
                 child: Icon(
                   _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-                  color: Colors.grey.shade600,
+                  color: const Color(0xFF8A817C), // Taupe
                 ),
               )
             : null,
@@ -167,7 +169,8 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildRememberMe() {
     return Row(
       children: [
-        const Text("Remember me", style: TextStyle(color: Colors.grey)),
+        const Text("Remember me",
+            style: TextStyle(color: Color(0xFF463F3A))), // Taupe
         Checkbox(
           value: rememberme,
           onChanged: (bool? value) {
@@ -183,8 +186,8 @@ class _LoginScreenState extends State<LoginScreen> {
               }
             });
           },
-          activeColor: Colors.grey.shade700,
-          checkColor: Colors.white,
+          activeColor: const Color(0xFF463F3A), // Dark brown
+          checkColor: const Color(0xFFF4F3EE), // Light cream
         ),
       ],
     );
@@ -194,17 +197,17 @@ class _LoginScreenState extends State<LoginScreen> {
     return ElevatedButton(
       onPressed: onLogin,
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.grey.shade300,
+        backgroundColor: const Color(0xFF463F3A), // Taupe
         padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 15),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
         ),
         elevation: 8,
-        shadowColor: Colors.grey.shade400,
+        shadowColor: const Color(0xFF463F3A), // Dark brown
       ),
       child: const Text(
         'Login',
-        style: TextStyle(fontSize: 18, color: Colors.black87),
+        style: TextStyle(fontSize: 18, color: Color(0xFFF4F3EE)), // Light cream
       ),
     );
   }
@@ -228,7 +231,7 @@ class _LoginScreenState extends State<LoginScreen> {
         if (data['status'] == "success") {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("Login Success"),
-            backgroundColor: Colors.black87,
+            backgroundColor: Color(0xFF463F3A), // Dark brown
           ));
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const MainScreen()));

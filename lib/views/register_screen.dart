@@ -13,39 +13,39 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  // Controllers for the input fields
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneNumController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController password2Controller = TextEditingController();
-  final _formKey = GlobalKey<FormState>(); // Global key to validate the form
+  final _formKey = GlobalKey<FormState>();
 
-  bool _isPasswordVisible = false; // Visibility state for password 1
-  bool _isPassword2Visible = false; // Visibility state for password 2
+  bool _isPasswordVisible = false;
+  bool _isPassword2Visible = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF4F3EE), // Light cream background
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.grey.shade100,
+              color: const Color(0xFFBCB8B1), // Greyish beige
               borderRadius: BorderRadius.circular(20),
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(
-                  color: Colors.grey.shade300,
+                  color: Color(0xFF8A817C), // Taupe
                   blurRadius: 20,
-                  offset: const Offset(0, 10),
+                  offset: Offset(0, 10),
                 ),
               ],
             ),
             child: Padding(
               padding: const EdgeInsets.all(24.0),
               child: Form(
-                key: _formKey, // Assign the form key to enable validation
+                key: _formKey,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -55,7 +55,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       style: GoogleFonts.monoton(
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black87,
+                        color: const Color(0xFF463F3A), // Dark brown
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -75,7 +75,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         if (val == null || val.isEmpty) {
                           return 'Please enter an email';
                         }
-                        // Email pattern
                         String pattern =
                             r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$';
                         RegExp regex = RegExp(pattern);
@@ -129,13 +128,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       onPressed: _checkEmailExists,
                       minWidth: double.infinity,
                       height: 50,
-                      color: Colors.grey.shade300,
+                      color: const Color(0xFF463F3A), // Peachy beige
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
                       child: const Text(
                         "Register",
-                        style: TextStyle(color: Colors.black87, fontSize: 18),
+                        style: TextStyle(color: Colors.white, fontSize: 18),
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -148,7 +147,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       },
                       child: const Text(
                         "Already Registered? Login",
-                        style: TextStyle(color: Colors.grey),
+                        style: TextStyle(color: Color(0xFF463F3A)), // Taupe
                       ),
                     ),
                   ],
@@ -176,9 +175,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           borderSide: BorderSide.none,
         ),
         filled: true,
-        fillColor: Colors.grey.shade200,
+        fillColor: Colors.white, // Set the input box background to white
         hintText: hintText,
-        hintStyle: TextStyle(color: Colors.grey.shade600),
+        hintStyle: const TextStyle(color: Color(0xFF8A817C)), // Taupe
       ),
       validator: validator,
     );
@@ -199,14 +198,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
           borderSide: BorderSide.none,
         ),
         filled: true,
-        fillColor: Colors.grey.shade200,
+        fillColor: Colors.white, // Set the input box background to white
         hintText: hintText,
-        hintStyle: TextStyle(color: Colors.grey.shade600),
+        hintStyle: const TextStyle(color: Color(0xFF8A817C)), // Taupe
         suffixIcon: GestureDetector(
           onTap: onToggleVisibility,
           child: Icon(
             isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-            color: Colors.grey.shade600,
+            color: const Color(0xFF8A817C), // Taupe
           ),
         ),
       ),
@@ -310,9 +309,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       Uri.parse("${MyConfig.servername}/mymemberlink/api/check_email.php"),
       body: {"email": email},
     ).then((response) {
-      print("Response status: ${response.statusCode}");
-      print("Response body: ${response.body}");
-
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
         if (data['status'] == "exists") {
@@ -321,18 +317,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
             backgroundColor: Colors.red,
           ));
         } else {
-          // Email is available, proceed with registration
           _registerUserDialog();
         }
       } else {
-        print("Error checking email - status code: ${response.statusCode}");
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text("Error checking email"),
           backgroundColor: Colors.red,
         ));
       }
     }).catchError((error) {
-      print("Network error: $error");
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Error: Unable to check email"),
         backgroundColor: Colors.red,
