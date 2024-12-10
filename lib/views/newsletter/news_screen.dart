@@ -6,11 +6,11 @@ import 'package:intl/intl.dart';
 import 'package:mymemberlinks/models/news.dart';
 
 import 'package:http/http.dart' as http;
-import 'package:mymemberlinks/views/edit_news.dart';
-import 'package:mymemberlinks/views/mydrawer.dart';
-import 'package:mymemberlinks/views/new_news.dart';
+import 'package:mymemberlinks/views/newsletter/edit_news.dart';
+import 'package:mymemberlinks/views/shared/mydrawer.dart';
+import 'package:mymemberlinks/views/newsletter/new_news.dart';
 
-import '../myconfig.dart';
+import '../../myconfig.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});

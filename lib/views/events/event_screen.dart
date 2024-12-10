@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mymemberlinks/views/mydrawer.dart';
+import 'package:mymemberlinks/views/shared/mydrawer.dart';
+
+import 'new_event.dart';
 
 class EventScreen extends StatefulWidget {
   const EventScreen({super.key});
@@ -31,10 +33,17 @@ class _EventScreenState extends State<EventScreen> {
           )
         ], //
       ),
-      body: const Center(child: Text("")),
+      body: const Center(child: Text("Events...")),
       drawer: const MyDrawer(),
-      floatingActionButton:
-          FloatingActionButton(onPressed: () {}, child: const Icon(Icons.add)),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color(0xFFE0AFA0), // Soft Peach
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (content) => const NewEventScreen()));
+          //loadNewsData();
+        },
+        child: const Icon(Icons.add),
+      ),
     );
   }
 

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:mymemberlinks/myconfig.dart';
-import 'package:mymemberlinks/views/login_screen.dart';
+import 'package:mymemberlinks/views/auth/login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mymemberlinks/views/event_screen.dart';
-import 'package:mymemberlinks/views/news_screen.dart';
+import 'package:mymemberlinks/views/events/event_screen.dart';
+import 'package:mymemberlinks/views/newsletter/news_screen.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({super.key});

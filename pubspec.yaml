@@ -42,6 +42,8 @@ dependencies:
   pinput: ^5.0.0
   google_fonts: ^6.2.1
   intl: ^0.20.1
+  image_picker: ^1.1.2
+  image_cropper: ^8.0.2
 
 dev_dependencies:
   flutter_test:
@@ -69,6 +71,7 @@ flutter:
   assets:
      - assets/animations/
      - assets/images/2.png
+     - assets/images/camera.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
