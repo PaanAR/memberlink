@@ -7,6 +7,7 @@ import 'package:mymemberlinks/models/news.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:mymemberlinks/views/edit_news.dart';
+import 'package:mymemberlinks/views/mydrawer.dart';
 import 'package:mymemberlinks/views/new_news.dart';
 
 import '../myconfig.dart';
@@ -228,81 +229,7 @@ class _MainScreenState extends State<MainScreen> {
                 )
               ],
             ),
-      drawer: Drawer(
-        backgroundColor: const Color(0xFFF4F3EE), // Light Beige
-        child: ListView(
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(color: Color(0xFF463F3A)), // Dark Brown
-              child: Text(
-                "Drawer Header",
-                style: TextStyle(color: Colors.white, fontSize: 18),
-              ),
-            ),
-            ListTile(
-              onTap: () {},
-              leading: const Icon(Icons.article, color: Color(0xFF463F3A)),
-              title: const Text("Newsletter",
-                  style: TextStyle(color: Color(0xFF463F3A))),
-            ),
-            ListTile(
-              onTap: () {},
-              leading: const Icon(Icons.event, color: Color(0xFF8A817C)),
-              title: const Text("Events",
-                  style: TextStyle(color: Color(0xFF463F3A))),
-            ),
-            ListTile(
-              onTap: () {},
-              leading: const Icon(Icons.group, color: Color(0xFFE0AFA0)),
-              title: const Text("Members",
-                  style: TextStyle(color: Color(0xFF463F3A))),
-            ),
-            ListTile(
-              onTap: () {},
-              leading: const Icon(Icons.check_circle, color: Color(0xFFBCB8B1)),
-              title: const Text("Vetting",
-                  style: TextStyle(color: Color(0xFF463F3A))),
-            ),
-            ListTile(
-              onTap: () {},
-              leading: const Icon(Icons.book, color: Color(0xFFE0AFA0)),
-              title: const Text("Resources",
-                  style: TextStyle(color: Color(0xFF463F3A))),
-            ),
-            ListTile(
-              onTap: () {},
-              leading: const Icon(Icons.payment, color: Color(0xFF8A817C)),
-              title: const Text("Payments",
-                  style: TextStyle(color: Color(0xFF463F3A))),
-            ),
-            ListTile(
-              onTap: () {},
-              leading:
-                  const Icon(Icons.shopping_cart, color: Color(0xFF463F3A)),
-              title: const Text("Products",
-                  style: TextStyle(color: Color(0xFF463F3A))),
-            ),
-            ListTile(
-              onTap: () {},
-              leading: const Icon(Icons.mail, color: Color(0xFFE0AFA0)),
-              title: const Text("Mailings",
-                  style: TextStyle(color: Color(0xFF463F3A))),
-            ),
-            ListTile(
-              onTap: () {},
-              leading: const Icon(Icons.people, color: Color(0xFFBCB8B1)),
-              title: const Text("Committee",
-                  style: TextStyle(color: Color(0xFF463F3A))),
-            ),
-            ListTile(
-              onTap: () {},
-              leading: const Icon(Icons.settings, color: Color(0xFF8A817C)),
-              title: const Text("Settings",
-                  style: TextStyle(color: Color(0xFF463F3A))),
-            ),
-          ],
-        ),
-      ),
+      drawer: const MyDrawer(),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xFFE0AFA0), // Soft Peach
         onPressed: () async {

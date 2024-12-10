@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mymemberlinks/myconfig.dart';
 import 'package:mymemberlinks/views/forgot_pass_screen.dart';
-import 'package:mymemberlinks/views/main_screen.dart';
+import 'package:mymemberlinks/views/news_screen.dart';
 import 'package:mymemberlinks/views/register_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
