@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:mymemberlinks/models/news.dart';
+import 'package:mymemberlinks/model/news.dart';
 import 'package:mymemberlinks/myconfig.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_fonts/google_fonts.dart';

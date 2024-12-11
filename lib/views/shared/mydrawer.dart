@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mymemberlinks/views/events/event_screen.dart';
 import 'package:mymemberlinks/views/newsletter/news_screen.dart';
+import 'package:mymemberlinks/views/product/product_screen.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({super.key});
@@ -61,7 +62,12 @@ class MyDrawer extends StatelessWidget {
                 style: TextStyle(color: Color(0xFF463F3A))),
           ),
           ListTile(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (content) => const ProductScreen()));
+            },
             leading: const Icon(Icons.shopping_cart, color: Color(0xFF463F3A)),
             title: const Text("Products",
                 style: TextStyle(color: Color(0xFF463F3A))),
