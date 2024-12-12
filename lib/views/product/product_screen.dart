@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:mymemberlinks/model/MyProduct.dart';
 import 'package:mymemberlinks/myconfig.dart';
 import 'package:mymemberlinks/views/cart/cartdetailscreen.dart';
@@ -102,12 +103,36 @@ class _ProductScreenState extends State<ProductScreen> {
       ),
       body: productsList.isEmpty
           ? Center(
-              child: Text(
-                status,
-                style: const TextStyle(
-                    color: Colors.red,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
+              child: Column(
+                children: [
+                  Lottie.asset(
+                    "assets/animations/Animation_4.json",
+                    fit: BoxFit.contain,
+                    width: 300,
+                    height: 300, // Set your desired width
+                    // Set your desired height
+                  ),
+                  const SizedBox(height: 20),
+                  // Custom message
+                  const Text(
+                    "No Products Available",
+                    style: TextStyle(
+                      color: Colors.black54,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "Try refreshing or check back later.",
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 16,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
             )
           : Column(
@@ -128,29 +153,25 @@ class _ProductScreenState extends State<ProductScreen> {
                             vertical: 5, horizontal: 10),
                         child: InkWell(
                           onTap: () async {
-                            // Navigate to ProductDetailsScreen
-                            MyProduct product = MyProduct.fromJson(
-                                productsList[index].toJson());
-                            await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (content) =>
-                                    ProductDetailsScreen(product: product),
-                              ),
-                            );
+                            showProductsDetailsDialog(index);
                             loadProductsData(); // Reload products if needed
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
                               children: [
-                                // Product Image
+                                // Product Image with SizedBox
                                 SizedBox(
-                                    width: screenWidth *
-                                        0.2, // Adjust size as needed
-                                    height: screenWidth * 0.2,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(8.0),
+                                  width: screenWidth *
+                                      0.2, // Adjust size as needed
+                                  height: screenWidth * 0.2,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        // Show product details dialog
+                                        showProductsDetailsDialog(index);
+                                      },
                                       child: Image.network(
                                         "${MyConfig.servername}/mymemberlink/assets/products/${productsList[index].productFileName}",
                                         fit: BoxFit.cover,
@@ -159,7 +180,9 @@ class _ProductScreenState extends State<ProductScreen> {
                                             Image.asset("assets/images/na.png",
                                                 fit: BoxFit.cover),
                                       ),
-                                    )),
+                                    ),
+                                  ),
+                                ),
                                 const SizedBox(
                                     width:
                                         10), // Spacing between image and details
@@ -209,8 +232,9 @@ class _ProductScreenState extends State<ProductScreen> {
                                           Text(
                                             "Qty: ${productsList[index].productQty}",
                                             style: const TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w600),
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -220,6 +244,35 @@ class _ProductScreenState extends State<ProductScreen> {
                                         "Date: ${df.format(DateTime.parse(productsList[index].productDate.toString()))}",
                                         style: const TextStyle(
                                             fontSize: 12, color: Colors.grey),
+                                      ),
+                                      const SizedBox(height: 10),
+                                      // Button to navigate to ProductDetailsScreen
+                                      ElevatedButton(
+                                        onPressed: () async {
+                                          MyProduct product =
+                                              MyProduct.fromJson(
+                                                  productsList[index].toJson());
+                                          await Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (content) =>
+                                                  ProductDetailsScreen(
+                                                      product: product),
+                                            ),
+                                          );
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              Colors.teal, // Button color
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                        ),
+                                        child: const Text(
+                                          "Add To Cart",
+                                          style: TextStyle(color: Colors.white),
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -412,58 +465,67 @@ class _ProductScreenState extends State<ProductScreen> {
     });
   }
 
-  void deleteDialog(int index) {}
-
-  void showEventDetailsDialog(int index) {
+  void showProductsDetailsDialog(int index) {
     showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text(productsList[index].productName.toString()),
-            content: SingleChildScrollView(
-              child: Column(children: [
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(productsList[index].productName.toString()),
+          content: SingleChildScrollView(
+            child: Column(
+              children: [
                 Image.network(
-                    errorBuilder: (context, error, stackTrace) => Image.asset(
-                          "assets/images/na.png",
-                        ),
-                    width: screenWidth,
-                    height: screenHeight / 4,
-                    fit: BoxFit.cover,
-                    scale: 4,
-                    "${MyConfig.servername}/mymemberlink/assets/products/${productsList[index].productFileName}"),
+                  errorBuilder: (context, error, stackTrace) => Image.asset(
+                    "assets/images/na.png",
+                  ),
+                  width: screenWidth,
+                  height: screenHeight / 4,
+                  fit: BoxFit.cover,
+                  scale: 4,
+                  "${MyConfig.servername}/mymemberlink/assets/products/${productsList[index].productFileName}",
+                ),
                 Text(df.format(DateTime.parse(
                     productsList[index].productDate.toString()))),
                 const SizedBox(height: 10),
                 Text(
                   productsList[index].productDesc.toString(),
                   textAlign: TextAlign.justify,
-                )
-              ]),
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Price: RM ${productsList[index].productPrice}",
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.teal,
+                      ),
+                    ),
+                    Text(
+                      "Qty: ${productsList[index].productQty}",
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
-            actions: [
-              //TextButton(
-              //onPressed: () async {
-              //  Navigator.pop(context);
-              //MyProduct myproduct = productsList[index];
-              // await Navigator.push(
-              //     context,
-              //     MaterialPageRoute(
-              //builder: (content) => EditEventScreen(
-              //            myevent: myevent,
-              //      )));
-              //  loadProductsData();
-              // },
-              //child: const Text("Edit Event"),
-              //  ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text("Close"),
-              )
-            ],
-          );
-        });
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("Close"),
+            )
+          ],
+        );
+      },
+    );
   }
 
   String truncateString(String str, int length) {

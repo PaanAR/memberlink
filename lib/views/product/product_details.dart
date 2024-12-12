@@ -70,11 +70,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             const SizedBox(height: 20),
 
             // Product Name
-            Text(
-              widget.product.productName ?? "Unknown Product",
-              style: const TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
+            Center(
+              child: Text(
+                widget.product.productName ?? "Unknown Product",
+                style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             const SizedBox(height: 10),
@@ -85,7 +87,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               style: const TextStyle(fontSize: 16, height: 1.5),
             ),
             const SizedBox(height: 20),
-
+            Text(
+              "Quantity Avalaible : ${widget.product.productQty ?? "N/A"}",
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 13, 45, 226),
+              ),
+            ),
+            const SizedBox(height: 20),
             // Product Price
             Text(
               "Price: RM ${widget.product.productPrice ?? "N/A"}",
@@ -95,8 +105,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 color: Colors.green,
               ),
             ),
-            const SizedBox(height: 20),
 
+            const SizedBox(height: 20),
             // Quantity Selector
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
