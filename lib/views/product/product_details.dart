@@ -112,17 +112,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 ],
               ),
               const SizedBox(height: 20),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () async {
-                    await addToCart();
-                    Navigator.pop(
-                        context); // Close the current screen after adding to cart
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFE0AFA0)),
-                  child: const Text("Add to Cart"),
-                ),
+              ElevatedButton(
+                onPressed: () async {
+                  await addToCart();
+                  Navigator.pop(
+                      context); // Close the current screen after adding to cart
+                },
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFFE0AFA0)),
+                child: const Text("Add to Cart"),
               )
             ],
           ),

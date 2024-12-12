@@ -6,6 +6,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:mymemberlinks/myconfig.dart';
+import 'package:mymemberlinks/views/product/product_screen.dart';
 
 class NewProcuctScreen extends StatefulWidget {
   const NewProcuctScreen({super.key});
@@ -353,7 +354,10 @@ class _NewProcuctScreenState extends State<NewProcuctScreen> {
                 ),
                 onPressed: () {
                   insertProduct();
-                  Navigator.of(context).pop();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ProductScreen()));
                 },
               ),
               TextButton(

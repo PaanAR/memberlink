@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:mymemberlinks/model/MyProduct.dart';
 import 'package:mymemberlinks/myconfig.dart';
+import 'package:mymemberlinks/views/cart/cartdetailscreen.dart';
 import 'package:mymemberlinks/views/product/new_product.dart';
 import 'package:http/http.dart' as http;
 import 'package:mymemberlinks/views/product/product_details.dart';
@@ -26,6 +27,7 @@ class _ProductScreenState extends State<ProductScreen> {
   int currpage = 1;
   int numofresult = 0;
   var color;
+  int cartItemCount = 0;
   String status = "Loading...";
   @override
   void initState() {
@@ -50,15 +52,45 @@ class _ProductScreenState extends State<ProductScreen> {
           color: Color(0xFFF4F3EE), // Light Beige for the hamburger icon
         ),
         actions: [
-          IconButton(
-            onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //       builder: (context) => const CartDetailsScreen()),
-              // );
-            },
-            icon: const Icon(Icons.shopping_cart, color: Color(0xFFF4F3EE)),
+          Stack(
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CartDetailsScreen(),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.shopping_cart, color: Color(0xFFF4F3EE)),
+              ),
+              if (cartItemCount > 0)
+                Positioned(
+                  right: 10,
+                  top: 10,
+                  child: Container(
+                    padding: const EdgeInsets.all(2),
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    constraints: const BoxConstraints(
+                      minWidth: 16,
+                      minHeight: 16,
+                    ),
+                    child: Text(
+                      '$cartItemCount',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+            ],
           ),
           IconButton(
             onPressed: () {
@@ -238,18 +270,21 @@ class _ProductScreenState extends State<ProductScreen> {
   }
 
   void loadProductsData() {
-    final url = Uri.parse(
+    final productUrl = Uri.parse(
         "${MyConfig.servername}/mymemberlink/api/load_products.php?pageno=$currpage");
 
-    http.get(url).then((response) {
-      log("Response: ${response.body}");
+    final cartUrl = Uri.parse(
+        "${MyConfig.servername}/mymemberlink/api/load_cart_count.php");
+
+    // Fetch products
+    http.get(productUrl).then((response) {
+      log("Product Response: ${response.body}");
 
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
 
         if (data['status'] == "success") {
-          var result =
-              data['data']['products']; // Access 'products', not 'news'
+          var result = data['data']['products'];
           productsList.clear();
 
           for (var item in result) {
@@ -278,6 +313,23 @@ class _ProductScreenState extends State<ProductScreen> {
       setState(() {
         status = "Error: Unable to fetch products.";
       });
+    });
+
+    // Fetch cart count
+    http.get(cartUrl).then((response) {
+      log("Cart Count Response: ${response.body}");
+
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+
+        if (data['status'] == "success") {
+          setState(() {
+            cartItemCount = data['cart_count'];
+          });
+        }
+      }
+    }).catchError((error) {
+      log("Error fetching cart count: $error");
     });
   }
 
