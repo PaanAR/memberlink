@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
@@ -27,52 +28,77 @@ class _NewProcuctScreenState extends State<NewProcuctScreen> {
   TextEditingController quantityController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   @override
+  @override
   Widget build(BuildContext context) {
     screenHeight = MediaQuery.of(context).size.height;
     screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("New Product"),
+        title: Text(
+          "Add New Product",
+          style: GoogleFonts.monoton(color: const Color(0xFFF4F3EE)),
+        ),
+        centerTitle: true,
+        backgroundColor: const Color(0xFF463F3A),
+        iconTheme: const IconThemeData(
+          color: Color(0xFFF4F3EE),
+        ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         child: Column(
           children: [
+            // Image Picker Section
+            GestureDetector(
+              onTap: () {
+                showSelectionDialog();
+              },
+              child: Container(
+                height: screenHeight * 0.3,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade200,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: Colors.grey.shade400, width: 1.5),
+                  image: _image == null
+                      ? null
+                      : DecorationImage(
+                          image: FileImage(_image!),
+                          fit: BoxFit.cover,
+                        ),
+                ),
+                child: _image == null
+                    ? const Icon(
+                        Icons.add_a_photo,
+                        size: 50,
+                        color: Colors.grey,
+                      )
+                    : null,
+              ),
+            ),
+            const SizedBox(height: 20),
             Form(
               key: _formKey,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      showSelectionDialog();
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                            fit: BoxFit.contain,
-                            image: _image == null
-                                ? const AssetImage("assets/images/camera.png")
-                                : FileImage(_image!) as ImageProvider),
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.grey.shade200,
-                        border: Border.all(color: Colors.grey),
+                  // Product Name
+                  TextFormField(
+                    validator: (value) =>
+                        value!.isEmpty ? "Enter Product Name" : null,
+                    controller: nameController,
+                    decoration: InputDecoration(
+                      labelText: "Product Name",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                      height: screenHeight * 0.4,
+                      filled: true,
+                      fillColor: Colors.grey.shade100,
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  TextFormField(
-                      validator: (value) =>
-                          value!.isEmpty ? "Enter Product Name" : null,
-                      controller: nameController,
-                      decoration: const InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                          ),
-                          hintText: "Product Name")),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 16),
+                  // Product Description
                   TextFormField(
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -83,16 +109,19 @@ class _NewProcuctScreenState extends State<NewProcuctScreen> {
                       return null;
                     },
                     controller: descriptionController,
-                    decoration: const InputDecoration(
+                    maxLines: 10,
+                    decoration: InputDecoration(
+                      labelText: "Product Description",
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                      hintText: "Product Description",
+                      filled: true,
+                      fillColor: Colors.grey.shade100,
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 16),
+                  // Quantity and Price Row
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       // Quantity decrement button
                       IconButton(
@@ -106,19 +135,25 @@ class _NewProcuctScreenState extends State<NewProcuctScreen> {
                             }
                           });
                         },
-                        icon: const Icon(Icons.remove),
+                        icon: const Icon(Icons.remove_circle_outline,
+                            color: Colors.red),
                       ),
 
-                      // Quantity input field with validator
+                      // Quantity input field
                       SizedBox(
                         width: 60,
                         child: TextFormField(
                           controller: quantityController,
                           textAlign: TextAlign.center,
                           keyboardType: TextInputType.number,
-                          decoration: const InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(vertical: 8),
-                            border: OutlineInputBorder(),
+                          decoration: InputDecoration(
+                            contentPadding:
+                                const EdgeInsets.symmetric(vertical: 8),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            filled: true,
+                            fillColor: Colors.grey.shade100,
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -129,15 +164,6 @@ class _NewProcuctScreenState extends State<NewProcuctScreen> {
                               return "Enter a valid number";
                             }
                             return null;
-                          },
-                          onChanged: (value) {
-                            setState(() {
-                              int? newQuantity = int.tryParse(value);
-                              if (newQuantity == null || newQuantity <= 0) {
-                                quantityController.text =
-                                    "1"; // Reset to 1 if invalid
-                              }
-                            });
                           },
                         ),
                       ),
@@ -152,81 +178,81 @@ class _NewProcuctScreenState extends State<NewProcuctScreen> {
                                 (currentQuantity + 1).toString();
                           });
                         },
-                        icon: const Icon(Icons.add),
+                        icon: const Icon(Icons.add_circle_outline,
+                            color: Colors.green),
                       ),
-
-                      // Price input field with validator
+                      const SizedBox(width: 16),
+                      // Price
                       Expanded(
+                        flex: 2,
                         child: TextFormField(
                           controller: priceController,
                           keyboardType: const TextInputType.numberWithOptions(
                               decimal: true),
-                          textInputAction: TextInputAction.next,
+                          decoration: InputDecoration(
+                            labelText: "Price (RM)",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            filled: true,
+                            fillColor: Colors.grey.shade100,
+                            prefixIcon: const Icon(Icons.attach_money),
+                          ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return "Book price must contain value";
+                              return "Enter price";
                             }
                             if (double.tryParse(value) == null ||
                                 double.parse(value) <= 0) {
-                              return "Enter a valid number";
+                              return "Enter a valid price";
                             }
                             return null;
                           },
-                          decoration: const InputDecoration(
-                            labelText: '  Price',
-                            labelStyle: TextStyle(),
-                            icon: Icon(Icons.money),
-                            prefixText: "   RM ",
-                            contentPadding: EdgeInsets.symmetric(vertical: 8),
-                            border: OutlineInputBorder(),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(width: 2.0),
-                            ),
-                          ),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 10),
-                  MaterialButton(
-                    elevation: 10,
-                    onPressed: () {
-                      if (!_formKey.currentState!.validate()) {
-                        print("STILL HERE");
-                        return;
-                      }
-                      if (_image == null) {
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(const SnackBar(
-                          content: Text("Please take a photo"),
-                          backgroundColor: Colors.red,
-                        ));
-                        return;
-                      }
-                      double filesize = getFileSize(_image!);
-                      print(filesize);
-
-                      if (filesize > 100) {
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(const SnackBar(
-                          content: Text("Image size too large"),
-                          backgroundColor: Colors.red,
-                        ));
-                        return;
-                      }
-                      insertProductDialog();
-                    },
-                    minWidth: screenWidth,
-                    height: 50,
-                    color: Theme.of(context).colorScheme.secondary,
-                    child: Text("Insert",
+                  const SizedBox(height: 20),
+                  // Insert Button
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate() &&
+                            _image != null) {
+                          insertProductDialog();
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                _image == null
+                                    ? "Please select an image"
+                                    : "Please fill out all fields correctly",
+                              ),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF463F3A),
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: const Text(
+                        "Insert Product",
                         style: TextStyle(
-                          color: Theme.of(context).colorScheme.onSecondary,
-                        )),
-                  )
+                          fontSize: 16,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

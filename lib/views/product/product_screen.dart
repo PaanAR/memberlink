@@ -146,18 +146,20 @@ class _ProductScreenState extends State<ProductScreen> {
                               children: [
                                 // Product Image
                                 SizedBox(
-                                  width: screenWidth *
-                                      0.2, // Adjust size as needed
-                                  height: screenWidth * 0.2,
-                                  child: Image.network(
-                                    "${MyConfig.servername}/mymemberlink/assets/products/${productsList[index].productFileName}",
-                                    fit: BoxFit.cover,
-                                    errorBuilder:
-                                        (context, error, stackTrace) =>
+                                    width: screenWidth *
+                                        0.2, // Adjust size as needed
+                                    height: screenWidth * 0.2,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      child: Image.network(
+                                        "${MyConfig.servername}/mymemberlink/assets/products/${productsList[index].productFileName}",
+                                        fit: BoxFit.cover,
+                                        errorBuilder: (context, error,
+                                                stackTrace) =>
                                             Image.asset("assets/images/na.png",
                                                 fit: BoxFit.cover),
-                                  ),
-                                ),
+                                      ),
+                                    )),
                                 const SizedBox(
                                     width:
                                         10), // Spacing between image and details
@@ -199,8 +201,10 @@ class _ProductScreenState extends State<ProductScreen> {
                                           Text(
                                             "Price: RM ${productsList[index].productPrice}",
                                             style: const TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w600),
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.teal,
+                                            ),
                                           ),
                                           Text(
                                             "Qty: ${productsList[index].productQty}",
@@ -229,26 +233,101 @@ class _ProductScreenState extends State<ProductScreen> {
                   ),
                 ),
                 SizedBox(
-                  height: screenHeight * 0.05,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: numofpage,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      color = (currpage - 1) == index
-                          ? const Color(0xFF463F3A)
-                          : const Color(0xFF8A817C);
-                      return TextButton(
-                        onPressed: () {
-                          currpage = index + 1;
-                          loadProductsData();
-                        },
-                        child: Text(
-                          (index + 1).toString(),
-                          style: TextStyle(color: color, fontSize: 18),
+                  height: screenHeight * 0.08, // Compact height
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // Left Arrow
+                      IconButton(
+                        icon: Icon(Icons.arrow_back_ios,
+                            color: currpage > 1 ? Colors.black : Colors.grey),
+                        onPressed: currpage > 1
+                            ? () {
+                                setState(() {
+                                  currpage--;
+                                });
+                                loadProductsData();
+                              }
+                            : null,
+                      ),
+                      // Page Numbers (Centered Logic)
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: List.generate(
+                          3,
+                          (index) {
+                            int pageIndex = currpage - 2 + index;
+                            if (pageIndex < 1 || pageIndex > numofpage) {
+                              // Skip invalid pages
+                              return const SizedBox(width: 0);
+                            }
+                            bool isSelected = pageIndex == currpage;
+                            return GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  currpage = pageIndex;
+                                });
+                                loadProductsData();
+                              },
+                              child: AnimatedOpacity(
+                                duration: const Duration(milliseconds: 300),
+                                opacity: isSelected ? 1.0 : 0.6,
+                                child: Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(horizontal: 6),
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: isSelected
+                                        ? const Color(0xFF463F3A)
+                                        : const Color(0xFFE0AFA0),
+                                    boxShadow: isSelected
+                                        ? [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.black.withOpacity(0.2),
+                                              blurRadius: 6,
+                                              offset: const Offset(0, 3),
+                                            ),
+                                          ]
+                                        : [],
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      pageIndex.toString(),
+                                      style: TextStyle(
+                                        color: isSelected
+                                            ? Colors.white
+                                            : Colors.black,
+                                        fontSize: 14,
+                                        fontWeight: isSelected
+                                            ? FontWeight.bold
+                                            : FontWeight.normal,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
                         ),
-                      );
-                    },
+                      ),
+                      // Right Arrow
+                      IconButton(
+                        icon: Icon(Icons.arrow_forward_ios,
+                            color: currpage < numofpage
+                                ? Colors.black
+                                : Colors.grey),
+                        onPressed: currpage < numofpage
+                            ? () {
+                                setState(() {
+                                  currpage++;
+                                });
+                                loadProductsData();
+                              }
+                            : null,
+                      ),
+                    ],
                   ),
                 ),
               ],

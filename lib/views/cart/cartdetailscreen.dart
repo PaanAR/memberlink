@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mymemberlinks/myconfig.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:mymemberlinks/model/cartlist.dart';
+import 'package:mymemberlinks/views/cart/edit_cart.dart';
 
 class CartDetailsScreen extends StatefulWidget {
   const CartDetailsScreen({super.key});
@@ -61,7 +63,6 @@ class _CartDetailsScreenState extends State<CartDetailsScreen> {
   void deleteCartItem(int index) {
     String productId = cartItems[index].productId.toString();
 
-    // Remove the item before calling setState
     final removedItem = cartItems.removeAt(index);
 
     setState(() {
@@ -131,8 +132,15 @@ class _CartDetailsScreenState extends State<CartDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Cart Details"),
-        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+        title: Text(
+          "CART",
+          style: GoogleFonts.monoton(color: const Color(0xFFF4F3EE)),
+        ),
+        centerTitle: true,
+        backgroundColor: const Color(0xFF463F3A),
+        iconTheme: const IconThemeData(
+          color: Color(0xFFF4F3EE),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
@@ -151,95 +159,144 @@ class _CartDetailsScreenState extends State<CartDetailsScreen> {
                     itemCount: cartItems.length,
                     itemBuilder: (context, index) {
                       final cartItem = cartItems[index];
-                      return Dismissible(
-                        key: Key(cartItem.productId.toString()),
-                        direction: DismissDirection.endToStart,
-                        background: Container(
-                          color: Colors.red,
-                          alignment: Alignment.centerRight,
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: const Icon(Icons.delete, color: Colors.white),
-                        ),
-                        confirmDismiss: (direction) async {
-                          final shouldDelete = await confirmDelete(index);
-                          if (shouldDelete == true) {
-                            // Remove the item from the list immediately
-                            final removedItem = cartItems.removeAt(index);
-
-                            setState(() {
-                              // Recalculate the total price after item removal
-                              totalPrice = cartItems.fold(
-                                  0.0, (sum, item) => sum + item.price);
-                            });
-
-                            // Proceed with API call for deletion
-                            http.post(
-                              Uri.parse(
-                                  "${MyConfig.servername}/mymemberlink/api/delete_cart_item.php"),
-                              body: {'cart_id': removedItem.cartId.toString()},
-                            ).then((response) {
-                              if (response.statusCode == 200) {
-                                final data = jsonDecode(response.body);
-                                if (data['status'] == "success") {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                          "Item '${removedItem.productName}' deleted successfully"),
-                                    ),
-                                  );
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                        content: Text(
-                                            "Failed to delete item: ${data['message']}")),
-                                  );
+                      return Card(
+                        elevation: 4,
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 8, horizontal: 16),
+                        child: Dismissible(
+                          key: Key(cartItem.productId.toString()),
+                          direction: DismissDirection.horizontal,
+                          background: Container(
+                            color: Colors.green,
+                            alignment: Alignment.centerLeft,
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: const Icon(Icons.edit, color: Colors.white),
+                          ),
+                          secondaryBackground: Container(
+                            color: Colors.red,
+                            alignment: Alignment.centerRight,
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child:
+                                const Icon(Icons.delete, color: Colors.white),
+                          ),
+                          confirmDismiss: (direction) async {
+                            if (direction == DismissDirection.startToEnd) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      EditCartScreen(cartItem: cartItem),
+                                ),
+                              ).then((updatedCartItem) {
+                                if (updatedCartItem != null) {
+                                  setState(() {
+                                    cartItems[index] = updatedCartItem;
+                                    totalPrice = cartItems.fold(
+                                        0.0, (sum, item) => sum + item.price);
+                                  });
                                 }
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content: Text(
-                                          "Server error: Unable to delete item")),
-                                );
-                              }
-                            }).catchError((error) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text("Error: $error")),
-                              );
-                            });
+                              });
 
-                            return true;
-                          }
-                          return false; // Prevent the dismissal if the user cancels
-                        },
-                        child: ListTile(
-                          leading: SizedBox(
-                            width: 60.0,
-                            height: 60.0,
-                            child: Image.network(
-                              "${MyConfig.servername}/mymemberlink/assets/products/${cartItem.productFileName}",
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) =>
-                                  Image.asset(
-                                "assets/images/na.png",
+                              return false;
+                            } else if (direction ==
+                                DismissDirection.endToStart) {
+                              final shouldDelete = await confirmDelete(index);
+                              if (shouldDelete == true) {
+                                final removedItem = cartItems.removeAt(index);
+
+                                setState(() {
+                                  totalPrice = cartItems.fold(
+                                      0.0, (sum, item) => sum + item.price);
+                                });
+
+                                http.post(
+                                  Uri.parse(
+                                      "${MyConfig.servername}/mymemberlink/api/delete_cart_item.php"),
+                                  body: {
+                                    'cart_id': removedItem.cartId.toString()
+                                  },
+                                ).then((response) {
+                                  if (response.statusCode == 200) {
+                                    final data = jsonDecode(response.body);
+                                    if (data['status'] == "success") {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                              "Item '${removedItem.productName}' deleted successfully"),
+                                        ),
+                                      );
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                            content: Text(
+                                                "Failed to delete item: ${data['message']}")),
+                                      );
+                                    }
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content: Text(
+                                              "Server error: Unable to delete item")),
+                                    );
+                                  }
+                                }).catchError((error) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text("Error: $error")),
+                                  );
+                                });
+
+                                return true;
+                              }
+                              return false;
+                            }
+                            return false;
+                          },
+                          child: ListTile(
+                            leading: SizedBox(
+                              width: 60.0,
+                              height: 60.0,
+                              child: Image.network(
+                                "${MyConfig.servername}/mymemberlink/assets/products/${cartItem.productFileName}",
                                 fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) =>
+                                    Image.asset(
+                                  "assets/images/na.png",
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
+                            title: Text(cartItem.productName,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold)),
+                            subtitle: Text("Qty: ${cartItem.quantity}",
+                                style: const TextStyle(color: Colors.grey)),
+                            trailing: Text(
+                                "RM ${cartItem.price.toStringAsFixed(2)}",
+                                style: const TextStyle(
+                                    color: Colors.teal, fontSize: 16)),
                           ),
-                          title: Text(cartItem.productName),
-                          subtitle: Text("Qty: ${cartItem.quantity}"),
-                          trailing:
-                              Text("RM ${cartItem.price.toStringAsFixed(2)}"),
                         ),
                       );
                     },
                   ),
                 ),
-                Padding(
+                Container(
+                  color: const Color(0xFFF1F8E9),
                   padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    "Total Price: RM $totalPrice",
-                    style: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text("Total Price:",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold)),
+                      Text("RM $totalPrice",
+                          style: const TextStyle(
+                              fontSize: 18,
+                              color: Colors.teal,
+                              fontWeight: FontWeight.bold)),
+                    ],
                   ),
                 ),
               ],
