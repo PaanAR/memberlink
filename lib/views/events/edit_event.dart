@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
@@ -6,26 +5,26 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mymemberlinks/model/myevent.dart';
 import 'package:mymemberlinks/myconfig.dart';
 
-class NewEventScreen extends StatefulWidget {
-  const NewEventScreen({super.key});
+class EditEventScreen extends StatefulWidget {
+  final MyEvent myevent;
+
+  const EditEventScreen({super.key, required this.myevent});
 
   @override
-  State<NewEventScreen> createState() => _NewEventScreenState();
+  State<EditEventScreen> createState() => _EditEventScreenState();
 }
 
-class _NewEventScreenState extends State<NewEventScreen> {
+class _EditEventScreenState extends State<EditEventScreen> {
   String startDateTime = "", endDateTime = "";
   String eventtypevalue = 'Conference';
   var selectedStartDateTime, selectedEndDateTime;
 
   var items = [
     'Conference',
-    'Exibition',
+    'Exhibition',
     'Seminar',
     'Hackathon',
   ];
@@ -39,12 +38,28 @@ class _NewEventScreenState extends State<NewEventScreen> {
   TextEditingController locationController = TextEditingController();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    titleController.text = widget.myevent.eventTitle.toString();
+    descriptionController.text = widget.myevent.eventDescription.toString();
+    locationController.text = widget.myevent.eventLocation.toString();
+    eventtypevalue = widget.myevent.eventType.toString();
+    var formatter = DateFormat('dd-MM-yyyy hh:mm a');
+    // String formattedDate = formatter.format(selectedStartDateTime);
+    startDateTime = formatter
+        .format(DateTime.parse(widget.myevent.eventStartdate.toString()));
+    endDateTime = formatter
+        .format(DateTime.parse(widget.myevent.eventEnddate.toString()));
+  }
+
+  @override
   Widget build(BuildContext context) {
     screenHeight = MediaQuery.of(context).size.height;
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: AppBar(
-          title: const Text("New Event"),
+          title: const Text("Edit Event"),
         ),
         body: SingleChildScrollView(
             padding: const EdgeInsets.all(8.0),
@@ -60,10 +75,10 @@ class _NewEventScreenState extends State<NewEventScreen> {
                       child: Container(
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                                fit: BoxFit.contain,
+                                fit: BoxFit.fill,
                                 image: _image == null
-                                    ? const AssetImage(
-                                        "assets/images/camera.png")
+                                    ? NetworkImage(
+                                        "${MyConfig.servername}/mymemberlink/assets/events/${widget.myevent.eventFilename}")
                                     : FileImage(_image!) as ImageProvider),
                             borderRadius: BorderRadius.circular(10),
                             color: Colors.grey.shade200,
@@ -175,13 +190,8 @@ class _NewEventScreenState extends State<NewEventScreen> {
                         validator: (value) =>
                             value!.isEmpty ? "Enter Location" : null,
                         controller: locationController,
-                        decoration: InputDecoration(
-                            suffixIcon: IconButton(
-                                onPressed: () {
-                                  getPositionDialog();
-                                },
-                                icon: const Icon(Icons.location_on)),
-                            border: const OutlineInputBorder(
+                        decoration: const InputDecoration(
+                            border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10)),
                             ),
@@ -229,26 +239,19 @@ class _NewEventScreenState extends State<NewEventScreen> {
                           print("STILL HERE");
                           return;
                         }
-                        if (_image == null) {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(const SnackBar(
-                            content: Text("Please take a photo"),
-                            backgroundColor: Colors.red,
-                          ));
-                          return;
-                        }
-                        double filesize = getFileSize(_image!);
-                        print(filesize);
+                        if (_image != null) {
+                          double filesize = getFileSize(_image!);
+                          print(filesize);
 
-                        if (filesize > 100) {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(const SnackBar(
-                            content: Text("Image size too large"),
-                            backgroundColor: Colors.red,
-                          ));
-                          return;
+                          if (filesize > 100) {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text("Image size too large"),
+                              backgroundColor: Colors.red,
+                            ));
+                            return;
+                          }
                         }
-
                         if (startDateTime == "" || endDateTime == "") {
                           ScaffoldMessenger.of(context)
                               .showSnackBar(const SnackBar(
@@ -258,7 +261,7 @@ class _NewEventScreenState extends State<NewEventScreen> {
                           return;
                         }
 
-                        insertEventDialog();
+                        updateEventDialog();
                       },
                       minWidth: screenWidth,
                       height: 50,
@@ -266,7 +269,7 @@ class _NewEventScreenState extends State<NewEventScreen> {
                           .colorScheme
                           .secondary, // Uses primary color from theme
                       child: Text(
-                        "Insert",
+                        "Update",
                         style: TextStyle(
                           color: Theme.of(context)
                               .colorScheme
@@ -386,14 +389,14 @@ class _NewEventScreenState extends State<NewEventScreen> {
     return sizeInKB;
   }
 
-  void insertEventDialog() {
+  void updateEventDialog() {
     showDialog(
         context: context,
         builder: (BuildContext context) {
           // return object of type Dialog
           return AlertDialog(
             title: const Text(
-              "Insert Event",
+              "Update Event",
               style: TextStyle(),
             ),
             content: const Text("Are you sure?", style: TextStyle()),
@@ -404,7 +407,7 @@ class _NewEventScreenState extends State<NewEventScreen> {
                   style: TextStyle(),
                 ),
                 onPressed: () {
-                  insertEvent();
+                  updateEvent();
                   Navigator.of(context).pop();
                 },
               ),
@@ -420,28 +423,42 @@ class _NewEventScreenState extends State<NewEventScreen> {
         });
   }
 
-  void insertEvent() {
+  void updateEvent() {
+    String image;
     String title = titleController.text;
     String location = locationController.text;
     String description = descriptionController.text;
     String start = selectedStartDateTime.toString();
     String end = selectedEndDateTime.toString();
-    String image = base64Encode(_image!.readAsBytesSync());
+    if (_image == null) {
+      image = "NA";
+    } else {
+      image = base64Encode(_image!.readAsBytesSync());
+    }
+
+    if (start == "null") {
+      start = "NA";
+    }
+    if (end == "null") {
+      end = "NA";
+    }
     // log(image);
     http.post(
-        Uri.parse("${MyConfig.servername}/mymemberlink/api/insert_event.php"),
+        Uri.parse("${MyConfig.servername}/mymemberlink/api/update_event.php"),
         body: {
+          "eventid": widget.myevent.eventId.toString(),
           "title": title,
           "location": location,
           "description": description,
           "eventtype": eventtypevalue,
           "start": start,
           "end": end,
+          "filename": widget.myevent.eventFilename,
           "image": image
         }).then((response) {
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
-        // log(response.body);
+        //  log(response.body);
         if (data['status'] == "success") {
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -456,138 +473,5 @@ class _NewEventScreenState extends State<NewEventScreen> {
         }
       }
     });
-  }
-
-  Future<void> determinePosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
-      }
-    }
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-
-    Position position = await Geolocator.getCurrentPosition();
-    List<Placemark> placemarks =
-        await placemarkFromCoordinates(position.latitude, position.longitude);
-    if (placemarks.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Location not found"),
-        backgroundColor: Colors.red,
-      ));
-      return;
-    }
-    String address = "${placemarks[0].name}, ${placemarks[0].country}";
-    print(address);
-    locationController.text = address;
-    setState(() {
-      print(position.latitude);
-      print(position.longitude);
-    });
-  }
-
-  void getPositionDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          title: const Text(
-            "Get Location From:",
-            style: TextStyle(),
-          ),
-          content: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    determinePosition();
-                  },
-                  icon: const Icon(
-                    Icons.location_on,
-                    size: 60,
-                  )),
-              IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    _selectfromMap();
-                  },
-                  icon: const Icon(
-                    Icons.map,
-                    size: 60,
-                  )),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  Future<void> _selectfromMap() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
-      }
-    }
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-
-    Position position = await Geolocator.getCurrentPosition();
-
-    final Completer<GoogleMapController> mapcontroller =
-        Completer<GoogleMapController>();
-
-    CameraPosition defaultLocation = CameraPosition(
-      target: LatLng(
-        position.latitude,
-        position.longitude,
-      ),
-      zoom: 14.4746,
-    );
-
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-            title: const Text("Select Location"),
-            content: SizedBox(
-                height: screenHeight,
-                width: screenWidth,
-                child: GoogleMap(
-                  mapType: MapType.normal,
-                  initialCameraPosition: defaultLocation,
-                  onMapCreated: (controller) =>
-                      mapcontroller.complete(controller),
-                  myLocationEnabled: true,
-                  myLocationButtonEnabled: true,
-                  compassEnabled: true,
-                )));
-      },
-    );
   }
 }
