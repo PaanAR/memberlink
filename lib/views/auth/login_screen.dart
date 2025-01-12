@@ -229,11 +229,14 @@ class _LoginScreenState extends State<LoginScreen> {
       try {
         var data = jsonDecode(response.body);
         if (data['status'] == "success") {
+          // Save user ID to SharedPreferences
+          saveUserData(data['data']['user_id']);
+
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("Login Success"),
-            backgroundColor: Color(0xFF463F3A), // Dark brown
+            backgroundColor: Color(0xFF463F3A),
           ));
-          Navigator.push(context,
+          Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) => const MainScreen()));
         } else {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -247,11 +250,6 @@ class _LoginScreenState extends State<LoginScreen> {
           backgroundColor: Colors.red,
         ));
       }
-    }).catchError((error) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Network error. Please try again later."),
-        backgroundColor: Colors.red,
-      ));
     });
   }
 
@@ -277,5 +275,11 @@ class _LoginScreenState extends State<LoginScreen> {
     passwordController.text = prefs.getString("pass") ?? "";
     rememberme = prefs.getBool("rememberme") ?? false;
     setState(() {});
+  }
+
+  Future<void> saveUserData(String userId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('user_id', userId);
+    print("Saved user ID: $userId"); // Debug print
   }
 }

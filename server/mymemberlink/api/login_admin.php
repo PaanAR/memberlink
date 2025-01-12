@@ -17,14 +17,14 @@ $email = $_POST['email'];
 $password = sha1($_POST['password']); // Hash the password using SHA-1 for comparison
 
 // SQL query to check if a user with the provided email and hashed password exists in `tbl_admins`
-$sqllogin = "SELECT `user_id`, `user_email`, `user_pass` FROM `tbl_users` WHERE `user_email` = '$email' AND `user_pass` = '$password'";
-$result = $conn->query($sqllogin);
+$sqllogin = "SELECT `admin_email`, `admin_pass` FROM `tbl_admins` WHERE `admin_email` = '$email' AND `admin_pass` = '$password'";
+$result = $conn->query($sqllogin); // Execute the query
 
+// Check if the query returned any rows (i.e., the user exists and credentials are correct)
 if ($result->num_rows > 0) {
-    $userdata = $result->fetch_assoc();
-    $response = array('status' => 'success', 'data' => array('user_id' => $userdata['user_id']));
+    $response = array('status' => 'success', 'data' => null); // Prepare success response with user data
 } else {
-    $response = array('status' => 'failed', 'data' => null);
+    $response = array('status' => 'failed', 'data' => null); // Prepare failure response
 }
 
 sendJsonResponse($response); // Send the JSON response

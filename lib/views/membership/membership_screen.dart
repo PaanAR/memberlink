@@ -6,8 +6,11 @@ import '../../model/membership.dart';
 import '../../myconfig.dart';
 import '../shared/mydrawer.dart';
 import 'package:mymemberlinks/views/membership/new_membership.dart';
+import 'package:mymemberlinks/views/membership/membership_payment.dart';
 
 class MembershipScreen extends StatefulWidget {
+  static const routeName = '/membership';
+
   const MembershipScreen({super.key});
 
   @override
@@ -222,7 +225,16 @@ class _MembershipScreenState extends State<MembershipScreen> {
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
                     onPressed: () {
-                      // TODO: Implement subscription logic
+                      Navigator.pop(context);
+                      // Navigate to payment screen
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MembershipPaymentScreen(
+                            membership: membership,
+                          ),
+                        ),
+                      );
                     },
                     child: const Text(
                       'Subscribe Now',

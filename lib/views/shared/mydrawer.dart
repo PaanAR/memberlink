@@ -3,6 +3,7 @@ import 'package:mymemberlinks/views/events/event_screen.dart';
 import 'package:mymemberlinks/views/membership/membership_screen.dart';
 import 'package:mymemberlinks/views/newsletter/news_screen.dart';
 import 'package:mymemberlinks/views/product/product_screen.dart';
+import '../membership/payment_list_screen.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({super.key});
@@ -62,7 +63,15 @@ class MyDrawer extends StatelessWidget {
                 style: TextStyle(color: Color(0xFF463F3A))),
           ),
           ListTile(
-            onTap: () {},
+            onTap: () {
+              Navigator.pop(context); // Close drawer
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const PaymentListScreen(),
+                ),
+              );
+            },
             leading: const Icon(Icons.payment, color: Color(0xFF8A817C)),
             title: const Text("Payments",
                 style: TextStyle(color: Color(0xFF463F3A))),
