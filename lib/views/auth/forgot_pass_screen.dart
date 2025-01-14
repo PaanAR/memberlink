@@ -1,6 +1,5 @@
 import 'package:email_otp/email_otp.dart';
 import 'package:flutter/material.dart';
-
 import 'verification_screen.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
@@ -140,7 +139,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => VerificationScreen(email: emailController.text),
+          builder: (context) => VerificationScreen(
+            email: emailController.text,
+          ),
         ),
       );
     } else {

@@ -1,7 +1,6 @@
 import 'package:email_otp/email_otp.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
-
 import 'reset_pass_screen.dart';
 
 class VerificationScreen extends StatefulWidget {

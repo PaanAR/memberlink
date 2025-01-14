@@ -1,3 +1,3 @@
 class MyConfig {
-  static const String servername = "http://10.19.50.1";
+  static const String servername = "https://humancc.site/ndhos/mmlink";
 }

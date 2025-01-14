@@ -1,18 +1,30 @@
 class User {
-  String? userid;
-  String? useremail;
+  String? userId;
+  String? username;
+  String? userEmail;
+  String? phoneNumber;
 
-  User({this.userid, this.useremail});
+  User({
+    this.userId,
+    this.username,
+    this.userEmail,
+    this.phoneNumber,
+  });
 
+  // Create a User object from JSON
   User.fromJson(Map<String, dynamic> json) {
-    userid = json['user_id'];
-    useremail = json['user_email'];
+    userId = json['userid'];
+    userEmail = json['useremail'];
+    username = json['username'];
+    phoneNumber = json['userphone'];
   }
-
+  // Convert the User object to JSON
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['user_id'] = userid;
-    data['user_email'] = useremail;
-    return data;
+    return {
+      'user_id': userId,
+      'user_name': username,
+      'user_email': userEmail,
+      'user_phoneNum': phoneNumber,
+    };
   }
 }

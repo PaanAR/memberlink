@@ -8,9 +8,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:mymemberlinks/myconfig.dart';
 import 'package:mymemberlinks/views/product/product_screen.dart';
+import 'package:mymemberlinks/model/user.dart';
 
 class NewProcuctScreen extends StatefulWidget {
-  const NewProcuctScreen({super.key});
+  final User user;
+  const NewProcuctScreen({super.key, required this.user});
 
   @override
   State<NewProcuctScreen> createState() => _NewProcuctScreenState();
@@ -383,7 +385,8 @@ class _NewProcuctScreenState extends State<NewProcuctScreen> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const ProductScreen()));
+                          builder: (context) =>
+                              ProductScreen(user: widget.user)));
                 },
               ),
               TextButton(

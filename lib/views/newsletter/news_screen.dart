@@ -9,11 +9,12 @@ import 'package:http/http.dart' as http;
 import 'package:mymemberlinks/views/newsletter/edit_news.dart';
 import 'package:mymemberlinks/views/shared/mydrawer.dart';
 import 'package:mymemberlinks/views/newsletter/new_news.dart';
-
+import 'package:mymemberlinks/model/user.dart';
 import '../../myconfig.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  final User user;
+  const MainScreen({super.key, required this.user});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -229,7 +230,7 @@ class _MainScreenState extends State<MainScreen> {
                 )
               ],
             ),
-      drawer: const MyDrawer(),
+      drawer: MyDrawer(user: widget.user),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xFFE0AFA0), // Soft Peach
         onPressed: () async {

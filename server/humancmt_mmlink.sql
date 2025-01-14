@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jan 12, 2025 at 09:48 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Host: localhost:3306
+-- Generation Time: Jan 14, 2025 at 06:34 PM
+-- Server version: 10.3.39-MariaDB-cll-lve
+-- PHP Version: 8.1.31
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `mymemberlink_db`
+-- Database: `humancmt_mmlink`
 --
 
 -- --------------------------------------------------------
@@ -89,6 +89,13 @@ CREATE TABLE `tbl_events` (
   `event_date` datetime(6) NOT NULL DEFAULT current_timestamp(6)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `tbl_events`
+--
+
+INSERT INTO `tbl_events` (`event_id`, `event_title`, `event_description`, `event_startdate`, `event_enddate`, `event_type`, `event_location`, `event_filename`, `event_date`) VALUES
+(1, '', '', '0000-00-00 00:00:00.000000', '0000-00-00 00:00:00.000000', '', '', 'event-8scmi4r5b2.jpg', '2025-01-14 09:58:50.705871');
+
 -- --------------------------------------------------------
 
 --
@@ -114,48 +121,11 @@ CREATE TABLE `tbl_memberships` (
 INSERT INTO `tbl_memberships` (`membership_id`, `membership_name`, `membership_desc`, `membership_price`, `membership_duration`, `membership_benefits`, `membership_terms`, `membership_date`, `membership_status`) VALUES
 (1, 'Gold Membership', 'Access to all premium features', 99.99, 12, 'Priority support, Free shipping', 'Terms and conditions apply', '2025-01-08 12:38:41', 'active'),
 (3, 'Silver Membership', 'Access to standard features', 49.99, 6, 'Standard support, Discounted shipping', 'Terms and conditions apply', '2025-01-08 12:39:26', 'active'),
-(4, 'Student Membership', 'Access to all features at a discounted rate', 29.99, 12, 'Standard support, Discounted shipping', 'Must provide valid student ID', '2025-01-08 12:43:14', 'active');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tbl_membership_purchases`
---
-
-CREATE TABLE `tbl_membership_purchases` (
-  `purchase_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `membership_id` int(11) NOT NULL,
-  `purchase_amount` decimal(10,2) NOT NULL,
-  `purchase_date` datetime NOT NULL DEFAULT current_timestamp(),
-  `payment_status` enum('pending','paid','failed') NOT NULL DEFAULT 'pending',
-  `transaction_id` varchar(100) DEFAULT NULL,
-  `payment_method` varchar(50) DEFAULT NULL,
-  `payment_provider` varchar(50) DEFAULT NULL,
-  `expiry_date` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tbl_membership_purchases`
---
-
-INSERT INTO `tbl_membership_purchases` (`purchase_id`, `user_id`, `membership_id`, `purchase_amount`, `purchase_date`, `payment_status`, `transaction_id`, `payment_method`, `payment_provider`, `expiry_date`) VALUES
-(1, 5, 4, 29.99, '2025-01-09 15:24:11', 'paid', 'TRX677f799bece92', 'e_wallet', 'boost', '2026-01-09 08:24:11'),
-(7, 5, 1, 99.99, '2025-01-10 16:40:11', 'paid', 'TRX6780dcebf1265', 'e_wallet', 'tng', '2026-01-10 09:40:11'),
-(8, 5, 3, 49.99, '2025-01-10 17:11:20', 'paid', 'TRX6780e438218d0', 'online_banking', 'maybank', '2025-07-10 10:11:20'),
-(9, 5, 1, 99.99, '2025-01-10 17:12:13', 'paid', 'TRX6780e46d18e19', 'e_wallet', 'boost', '2026-01-10 10:12:13'),
-(10, 5, 1, 99.99, '2025-01-10 17:31:33', 'paid', 'TRX6780e8f50e02a', 'e_wallet', 'tng', '2026-01-10 10:31:33'),
-(11, 5, 4, 29.99, '2025-01-10 17:38:34', 'paid', 'TRX6780ea9a0aec3', 'e_wallet', 'tng', '2026-01-10 10:38:34'),
-(12, 5, 1, 99.99, '2025-01-11 17:27:49', 'paid', 'TRX6782399506698', 'e_wallet', 'shopeepay', '2026-01-11 10:27:49'),
-(13, 5, 1, 99.99, '2025-01-11 22:34:06', 'paid', 'TRX6782815e5779c', 'e_wallet', 'shopeepay', '2026-01-11 15:34:06'),
-(14, 5, 4, 29.99, '2025-01-11 22:41:37', 'paid', 'TRX67828321213c2', 'e_wallet', 'shopeepay', '2026-01-11 15:41:37'),
-(15, 5, 1, 99.99, '2025-01-12 00:39:16', 'pending', 'TRX67829eb4bb8cc', 'e_wallet', 'shopeepay', '2026-01-11 17:39:16'),
-(16, 5, 1, 99.99, '2025-01-12 00:51:09', 'paid', 'TRX6782a17d03b66', 'e_wallet', 'shopeepay', '2026-01-11 17:51:09'),
-(17, 5, 3, 49.99, '2025-01-12 01:29:16', 'pending', 'TRX6782aa6c6c91f', 'online_banking', 'ambank', '2025-07-11 18:29:16'),
-(18, 5, 3, 49.99, '2025-01-12 01:29:27', 'paid', 'TRX6782aa77e70a1', 'online_banking', 'ambank', '2025-07-11 18:29:27'),
-(19, 5, 3, 49.99, '2025-01-12 12:43:19', 'paid', 'TRX6783486713f36', 'online_banking', 'bank_rakyat', '2025-07-12 05:43:19'),
-(20, 5, 1, 99.99, '2025-01-12 12:43:55', 'pending', 'TRX6783488bef795', 'e_wallet', 'shopeepay', '2026-01-12 05:43:55'),
-(21, 5, 4, 29.99, '2025-01-12 12:44:47', 'pending', 'TRX678348bf2513e', 'online_banking', 'cimb', '2026-01-12 05:44:47');
+(4, 'Student Membership', 'Access to all features at a discounted rate', 29.99, 12, 'Standard support, Discounted shipping', 'Must provide valid student ID', '2025-01-08 12:43:14', 'active'),
+(6, 'Platinum Plan', 'Ultimate membership with all-inclusive benefits', 50.00, 1, 'All Gold Plan benefits, Free shipping on all orders, 30% discount on all items, Personalized assistance', 'Membership is non-transferable, No refunds for partial months, Benefits subject to change', '2025-01-14 16:49:15', 'active'),
+(7, 'Family Plan', 'Membership for families with shared benefits', 40.00, 5, 'Access for up to 4 family members, All Silver Plan benefits, Family events and activities', 'Membership is non-transferable, No refunds for partial months, Benefits subject to change', '2025-01-14 16:49:47', 'active'),
+(8, 'Senior Plan', 'Special membership for seniors', 7.00, 1, 'Access to standard features, Monthly newsletter, 20% discount on select items', 'Membership is non-transferable, No refunds for partial months, Valid ID required', '2025-01-14 16:50:15', 'active'),
+(9, 'VIP Plan', 'Exclusive membership with top-tier benefits', 100.00, 2, 'All Platinum Plan benefits, VIP customer support, 40% discount on all items, Exclusive VIP events', 'Membership is non-transferable, No refunds for partial months, Benefits subject to change', '2025-01-14 16:50:54', 'active');
 
 -- --------------------------------------------------------
 
@@ -199,7 +169,8 @@ INSERT INTO `tbl_news` (`news_id`, `news_title`, `news_details`, `news_date`, `i
 (25, 'Feedback and Voting System', 'Share your ideas and vote on future features or improvements. Help shape the community hehehehehehe', '2024-11-30 10:12:43', 1),
 (26, 'Leaderboards for Active Members', 'Compete and rank on the leaderboard based on your participation, achievements, and contributions to the community.', '2024-11-30 10:12:58', 0),
 (27, 'Monthly Member Challenges', 'Take part in fun, themed challenges every month and win exclusive rewards to enhance your experience here.', '2024-11-30 10:13:15', 0),
-(28, 'Membership Plan 2.0', 'Membership plan very good good very good', '2024-12-03 10:34:09', 1);
+(28, 'Membership Plan 2.0', 'Membership plan very good good very good', '2024-12-03 10:34:09', 1),
+(30, '', '', '2025-01-14 09:58:45', 0);
 
 -- --------------------------------------------------------
 
@@ -244,7 +215,50 @@ INSERT INTO `tbl_products` (`product_id`, `product_name`, `product_desc`, `produ
 (19, 'MyMemberLink Sticker Pack', 'A set of assorted stickers with various MyMemberLink logos and designs. Great for decorating laptops, notebooks, and more.', 5.00, 180, '', 'product-q1u8jygm3k.jpg', '2024-12-12 12:39:33.944541'),
 (20, 'MyMemberLink Cozy Hoodie', ' A comfortable hoodie with the MyMemberLink logo printed on the front. Perfect for cooler days and casual outings.', 80.00, 20, '', 'product-fljfzlo6sv.jpg', '2024-12-12 12:40:10.590261'),
 (21, 'Memberlink Meme Sticker', 'Memeberlink Meme is meme that can change the world', 2.00, 200, '', 'product-7rpjtksru8.jpg', '2024-12-12 18:54:04.019762'),
-(22, 'memberlink sticker ', 'memberlink sticker tersohor', 3.00, 200, '', 'product-d5mjublxjd.jpg', '2024-12-12 19:01:00.171694');
+(22, 'memberlink sticker ', 'memberlink sticker tersohor', 3.00, 200, '', 'product-d5mjublxjd.jpg', '2024-12-12 19:01:00.171694'),
+(23, '', '', 0.00, 0, '', 'product-arvsbrnilb.jpg', '2025-01-14 09:58:45.695743');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_purchases`
+--
+
+CREATE TABLE `tbl_purchases` (
+  `purchase_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `membership_id` int(11) DEFAULT NULL,
+  `receipt_id` varchar(50) NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `payment_status` enum('pending','success','failed') NOT NULL DEFAULT 'pending',
+  `purchase_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `expiry_date` datetime DEFAULT NULL,
+  `payment_method` varchar(50) DEFAULT 'Billplz',
+  `payment_provider` varchar(50) DEFAULT 'Online Banking',
+  `transaction_id` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_purchases`
+--
+
+INSERT INTO `tbl_purchases` (`purchase_id`, `user_id`, `membership_id`, `receipt_id`, `amount`, `payment_status`, `purchase_date`, `expiry_date`, `payment_method`, `payment_provider`, `transaction_id`) VALUES
+(1, 5, 4, 'wawbfbpl', 29.99, 'success', '2025-01-13 20:08:17', NULL, 'Billplz', 'Online Banking', NULL),
+(2, 5, 1, 'klfpdkva', 99.99, 'success', '2025-01-14 00:26:35', NULL, 'Billplz', 'Online Banking', NULL),
+(3, 5, 1, 'klfpdkva', 99.99, 'success', '2025-01-14 00:26:51', NULL, 'Billplz', 'Online Banking', NULL),
+(4, 5, 1, 'zzrpm3lz', 99.99, 'success', '2025-01-14 00:42:10', NULL, 'Billplz', 'Online Banking', NULL),
+(5, 5, 4, 'jf2gyqyj', 29.99, 'failed', '2025-01-14 00:47:13', NULL, 'Billplz', 'Online Banking', NULL),
+(6, 5, 3, 'm4qgozo1', 49.99, 'success', '2025-01-14 07:02:50', NULL, 'Billplz', 'Online Banking', NULL),
+(7, 5, 4, 'lsuoc0t5', 29.99, 'success', '2025-01-14 07:13:43', NULL, 'Billplz', 'Online Banking', NULL),
+(9, 5, 1, 'RCP202501140748426658', 99.99, 'pending', '2025-01-14 15:48:42', NULL, 'Billplz', 'Online Banking', NULL),
+(10, 5, 1, 'RCP202501140750274117', 99.99, 'pending', '2025-01-14 15:50:27', NULL, 'Billplz', 'Online Banking', NULL),
+(13, 5, 4, 'vqnbi1z8', 29.99, 'success', '2025-01-14 16:35:10', NULL, 'Billplz', 'Online Banking', NULL),
+(14, 5, 7, 'RCP202501140910116947', 40.00, 'pending', '2025-01-14 17:10:11', NULL, 'Billplz', 'Online Banking', NULL),
+(15, 5, 7, 'nf3nmzsv', 40.00, 'success', '2025-01-14 17:10:31', NULL, 'Billplz', 'Online Banking', NULL),
+(16, 5, 9, 'RCP202501140914087503', 100.00, 'pending', '2025-01-14 17:14:08', NULL, 'Billplz', 'Online Banking', NULL),
+(17, 5, 9, 'vtu65qpq', 100.00, 'success', '2025-01-14 17:14:18', NULL, 'Billplz', 'Online Banking', NULL),
+(18, 5, 3, 'RCP202501141005116503', 49.99, 'pending', '2025-01-14 18:05:11', NULL, 'Billplz', 'Online Banking', NULL),
+(19, 5, 3, 'osvn0bp7', 49.99, 'failed', '2025-01-14 18:05:19', NULL, 'Billplz', 'Online Banking', NULL);
 
 -- --------------------------------------------------------
 
@@ -306,14 +320,6 @@ ALTER TABLE `tbl_memberships`
   ADD PRIMARY KEY (`membership_id`);
 
 --
--- Indexes for table `tbl_membership_purchases`
---
-ALTER TABLE `tbl_membership_purchases`
-  ADD PRIMARY KEY (`purchase_id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `membership_id` (`membership_id`);
-
---
 -- Indexes for table `tbl_news`
 --
 ALTER TABLE `tbl_news`
@@ -324,6 +330,15 @@ ALTER TABLE `tbl_news`
 --
 ALTER TABLE `tbl_products`
   ADD PRIMARY KEY (`product_id`);
+
+--
+-- Indexes for table `tbl_purchases`
+--
+ALTER TABLE `tbl_purchases`
+  ADD PRIMARY KEY (`purchase_id`),
+  ADD UNIQUE KEY `transaction_id` (`transaction_id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `membership_id` (`membership_id`);
 
 --
 -- Indexes for table `tbl_users`
@@ -352,31 +367,31 @@ ALTER TABLE `tbl_cart`
 -- AUTO_INCREMENT for table `tbl_events`
 --
 ALTER TABLE `tbl_events`
-  MODIFY `event_id` int(5) NOT NULL AUTO_INCREMENT;
+  MODIFY `event_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_memberships`
 --
 ALTER TABLE `tbl_memberships`
-  MODIFY `membership_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `tbl_membership_purchases`
---
-ALTER TABLE `tbl_membership_purchases`
-  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `membership_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tbl_news`
 --
 ALTER TABLE `tbl_news`
-  MODIFY `news_id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `news_id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `tbl_products`
 --
 ALTER TABLE `tbl_products`
-  MODIFY `product_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `product_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
+-- AUTO_INCREMENT for table `tbl_purchases`
+--
+ALTER TABLE `tbl_purchases`
+  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `tbl_users`
@@ -395,11 +410,11 @@ ALTER TABLE `tbl_cart`
   ADD CONSTRAINT `tbl_cart_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `tbl_products` (`product_id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `tbl_membership_purchases`
+-- Constraints for table `tbl_purchases`
 --
-ALTER TABLE `tbl_membership_purchases`
-  ADD CONSTRAINT `fk_membership` FOREIGN KEY (`membership_id`) REFERENCES `tbl_memberships` (`membership_id`),
-  ADD CONSTRAINT `fk_user` FOREIGN KEY (`user_id`) REFERENCES `tbl_users` (`user_id`);
+ALTER TABLE `tbl_purchases`
+  ADD CONSTRAINT `tbl_purchases_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_users` (`user_id`),
+  ADD CONSTRAINT `tbl_purchases_ibfk_2` FOREIGN KEY (`membership_id`) REFERENCES `tbl_memberships` (`membership_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -12,9 +12,11 @@ import 'package:mymemberlinks/myconfig.dart';
 import 'package:mymemberlinks/views/events/edit_event.dart';
 import 'package:mymemberlinks/views/events/new_event.dart';
 import 'package:mymemberlinks/views/shared/mydrawer.dart';
+import 'package:mymemberlinks/model/user.dart';
 
 class EventScreen extends StatefulWidget {
-  const EventScreen({super.key});
+  final User user;
+  const EventScreen({super.key, required this.user});
 
   @override
   State<EventScreen> createState() => _EventScreenState();
@@ -109,7 +111,7 @@ class _EventScreenState extends State<EventScreen> {
                   ),
                 );
               })),
-      drawer: const MyDrawer(),
+      drawer: MyDrawer(user: widget.user),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(context,

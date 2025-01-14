@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:mymemberlinks/myconfig.dart';
-import 'package:mymemberlinks/views/membership/membership_screen.dart';
+import 'package:mymemberlinks/model/user.dart';
 
 class NewMembershipScreen extends StatefulWidget {
-  const NewMembershipScreen({super.key});
+  final User user;
+  const NewMembershipScreen({super.key, required this.user});
 
   @override
   State<NewMembershipScreen> createState() => _NewMembershipScreenState();
@@ -221,7 +222,9 @@ class _NewMembershipScreenState extends State<NewMembershipScreen> {
           ));
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const MembershipScreen()),
+            MaterialPageRoute(
+              builder: (content) => NewMembershipScreen(user: widget.user),
+            ),
           );
         } else {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
