@@ -1,7 +1,6 @@
 import 'package:email_otp/email_otp.dart';
 import 'package:flutter/material.dart';
 import 'package:mymemberlinks/views/splash_screen.dart';
-import 'package:mymemberlinks/views/membership/membership_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,20 +18,8 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      navigatorObservers: [RouteObserver<PageRoute>()],
+    return const MaterialApp(
       home: SplashScreen(),
-      routes: {
-        '/membership': (context) => const MembershipScreen(),
-      },
-      // Add this to prevent the app from going back to splash screen
-      onGenerateRoute: (settings) {
-        if (settings.name == '/') {
-          return MaterialPageRoute(
-              builder: (context) => const MembershipScreen());
-        }
-        return null;
-      },
     );
   }
 }

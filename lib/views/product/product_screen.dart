@@ -12,9 +12,11 @@ import 'package:mymemberlinks/views/product/new_product.dart';
 import 'package:http/http.dart' as http;
 import 'package:mymemberlinks/views/product/product_details.dart';
 import '../shared/mydrawer.dart';
+import '../../model/user.dart';
 
 class ProductScreen extends StatefulWidget {
-  const ProductScreen({super.key});
+  final User user;
+  const ProductScreen({super.key, required this.user});
 
   @override
   State<ProductScreen> createState() => _ProductScreenState();
@@ -385,7 +387,7 @@ class _ProductScreenState extends State<ProductScreen> {
                 ),
               ],
             ),
-      drawer: const MyDrawer(),
+      drawer: MyDrawer(user: widget.user),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xFFE0AFA0), // Soft Peach
         onPressed: () async {
@@ -393,7 +395,7 @@ class _ProductScreenState extends State<ProductScreen> {
           await Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (content) => const NewProcuctScreen()));
+                  builder: (content) => NewProcuctScreen(user: widget.user)));
           loadProductsData();
         },
         child: const Icon(Icons.add),

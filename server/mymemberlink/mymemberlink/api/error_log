@@ -1,0 +1,91 @@
+[13-Jan-2025 02:22:36 UTC] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'root'@'localhost' (using password: NO) in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/dbconnect.php on line 8
+[13-Jan-2025 02:22:39 UTC] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'root'@'localhost' (using password: NO) in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/dbconnect.php on line 8
+[13-Jan-2025 04:08:04 UTC] PHP Notice:  Undefined index: url in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment.php on line 40
+[13-Jan-2025 04:25:10 UTC] PHP Notice:  Undefined index: url in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment.php on line 40
+[13-Jan-2025 04:27:09 UTC] PHP Notice:  Undefined index: url in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment.php on line 40
+[13-Jan-2025 04:33:16 UTC] PHP Notice:  Undefined index: url in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment.php on line 40
+[13-Jan-2025 05:26:11 UTC] PHP Notice:  Undefined index: url in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment.php on line 40
+[13-Jan-2025 05:27:20 UTC] PHP Notice:  Undefined index: url in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment.php on line 40
+[13-Jan-2025 05:31:34 UTC] PHP Notice:  Undefined index: email in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment.php on line 4
+[13-Jan-2025 05:31:34 UTC] PHP Notice:  Undefined index: phone in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment.php on line 5
+[13-Jan-2025 05:31:34 UTC] PHP Notice:  Undefined index: name in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment.php on line 6
+[13-Jan-2025 05:31:34 UTC] PHP Notice:  Undefined index: userid in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment.php on line 7
+[13-Jan-2025 05:31:34 UTC] PHP Notice:  Undefined index: amount in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment.php on line 8
+[13-Jan-2025 05:31:34 UTC] PHP Notice:  Undefined index: url in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment.php on line 40
+[13-Jan-2025 05:32:39 UTC] PHP Notice:  Undefined index: email in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment.php on line 4
+[13-Jan-2025 05:32:39 UTC] PHP Notice:  Undefined index: phone in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment.php on line 5
+[13-Jan-2025 05:32:39 UTC] PHP Notice:  Undefined index: name in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment.php on line 6
+[13-Jan-2025 05:32:39 UTC] PHP Notice:  Undefined index: userid in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment.php on line 7
+[13-Jan-2025 05:32:39 UTC] PHP Notice:  Undefined index: amount in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment.php on line 8
+[13-Jan-2025 05:32:40 UTC] PHP Notice:  Undefined index: url in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment.php on line 40
+[13-Jan-2025 05:39:02 UTC] PHP Notice:  Undefined index: url in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment.php on line 40
+[13-Jan-2025 05:39:12 UTC] PHP Notice:  Undefined index: url in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment.php on line 40
+[13-Jan-2025 05:40:51 UTC] PHP Notice:  Undefined index: url in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment.php on line 40
+[13-Jan-2025 05:45:17 UTC] PHP Notice:  Undefined index: url in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment.php on line 40
+[13-Jan-2025 05:46:02 UTC] PHP Notice:  Undefined index: url in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment.php on line 40
+[13-Jan-2025 05:46:38 UTC] PHP Notice:  Undefined index: url in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment.php on line 40
+[13-Jan-2025 05:49:08 UTC] PHP Notice:  Undefined index: url in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment.php on line 40
+[13-Jan-2025 06:05:39 UTC] PHP Notice:  Undefined index: url in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment.php on line 40
+[13-Jan-2025 06:06:20 UTC] PHP Notice:  Undefined index: url in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment.php on line 40
+[13-Jan-2025 07:22:14 UTC] PHP Notice:  Array to string conversion in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/login_user.php on line 38
+[13-Jan-2025 07:23:03 UTC] PHP Notice:  Array to string conversion in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/login_user.php on line 38
+[13-Jan-2025 07:23:28 UTC] PHP Notice:  Array to string conversion in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/login_user.php on line 38
+[13-Jan-2025 07:24:13 UTC] PHP Warning:  Array to string conversion in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/login_user.php on line 38
+[13-Jan-2025 07:25:22 UTC] PHP Warning:  Array to string conversion in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/login_user.php on line 38
+[13-Jan-2025 07:26:04 UTC] PHP Warning:  Array to string conversion in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/login_user.php on line 38
+[13-Jan-2025 07:27:02 UTC] PHP Warning:  Array to string conversion in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/login_user.php on line 38
+[13-Jan-2025 07:27:22 UTC] PHP Warning:  Array to string conversion in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/login_user.php on line 38
+[14-Jan-2025 01:58:45 UTC] PHP Warning:  Undefined array key "title" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/insert_news.php on line 9
+[14-Jan-2025 01:58:45 UTC] PHP Warning:  Undefined array key "details" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/insert_news.php on line 10
+[14-Jan-2025 01:58:45 UTC] PHP Warning:  Undefined array key "name" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/insert_product.php on line 9
+[14-Jan-2025 01:58:45 UTC] PHP Warning:  Undefined array key "description" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/insert_product.php on line 10
+[14-Jan-2025 01:58:45 UTC] PHP Warning:  Undefined array key "quantity" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/insert_product.php on line 11
+[14-Jan-2025 01:58:45 UTC] PHP Warning:  Undefined array key "price" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/insert_product.php on line 12
+[14-Jan-2025 01:58:45 UTC] PHP Warning:  Undefined array key "status" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/insert_product.php on line 13
+[14-Jan-2025 01:58:45 UTC] PHP Warning:  Undefined array key "image" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/insert_product.php on line 14
+[14-Jan-2025 01:58:45 UTC] PHP Warning:  Undefined array key "email" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/reset_password.php on line 11
+[14-Jan-2025 01:58:45 UTC] PHP Warning:  Undefined array key "password" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/reset_password.php on line 12
+[14-Jan-2025 01:58:45 UTC] PHP Warning:  Undefined array key "eventid" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/update_event.php on line 8
+[14-Jan-2025 01:58:45 UTC] PHP Warning:  Undefined array key "title" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/update_event.php on line 9
+[14-Jan-2025 01:58:45 UTC] PHP Warning:  Undefined array key "location" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/update_event.php on line 10
+[14-Jan-2025 01:58:45 UTC] PHP Warning:  Undefined array key "description" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/update_event.php on line 11
+[14-Jan-2025 01:58:45 UTC] PHP Warning:  Undefined array key "eventtype" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/update_event.php on line 12
+[14-Jan-2025 01:58:45 UTC] PHP Warning:  Undefined array key "start" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/update_event.php on line 13
+[14-Jan-2025 01:58:45 UTC] PHP Warning:  Undefined array key "end" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/update_event.php on line 14
+[14-Jan-2025 01:58:45 UTC] PHP Warning:  Undefined array key "image" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/update_event.php on line 15
+[14-Jan-2025 01:58:46 UTC] PHP Warning:  Undefined array key "email" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment.php on line 4
+[14-Jan-2025 01:58:46 UTC] PHP Warning:  Undefined array key "phone" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment.php on line 5
+[14-Jan-2025 01:58:46 UTC] PHP Warning:  Undefined array key "name" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment.php on line 6
+[14-Jan-2025 01:58:46 UTC] PHP Warning:  Undefined array key "userid" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment.php on line 7
+[14-Jan-2025 01:58:46 UTC] PHP Warning:  Undefined array key "amount" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment.php on line 8
+[14-Jan-2025 01:58:49 UTC] PHP Warning:  Undefined array key "name" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/insert_membership.php on line 10
+[14-Jan-2025 01:58:49 UTC] PHP Warning:  Undefined array key "description" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/insert_membership.php on line 11
+[14-Jan-2025 01:58:49 UTC] PHP Warning:  Undefined array key "price" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/insert_membership.php on line 12
+[14-Jan-2025 01:58:49 UTC] PHP Warning:  Undefined array key "duration" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/insert_membership.php on line 13
+[14-Jan-2025 01:58:49 UTC] PHP Warning:  Undefined array key "benefits" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/insert_membership.php on line 14
+[14-Jan-2025 01:58:49 UTC] PHP Warning:  Undefined array key "terms" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/insert_membership.php on line 15
+[14-Jan-2025 01:58:50 UTC] PHP Warning:  Undefined array key "title" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/insert_event.php on line 9
+[14-Jan-2025 01:58:50 UTC] PHP Warning:  Undefined array key "description" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/insert_event.php on line 10
+[14-Jan-2025 01:58:50 UTC] PHP Warning:  Undefined array key "location" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/insert_event.php on line 11
+[14-Jan-2025 01:58:50 UTC] PHP Warning:  Undefined array key "eventtype" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/insert_event.php on line 12
+[14-Jan-2025 01:58:50 UTC] PHP Warning:  Undefined array key "start" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/insert_event.php on line 13
+[14-Jan-2025 01:58:50 UTC] PHP Warning:  Undefined array key "end" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/insert_event.php on line 14
+[14-Jan-2025 01:58:50 UTC] PHP Warning:  Undefined array key "image" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/insert_event.php on line 15
+[14-Jan-2025 01:58:53 UTC] PHP Warning:  Undefined array key "userid" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment_update.php on line 6
+[14-Jan-2025 01:58:53 UTC] PHP Warning:  Undefined array key "phone" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment_update.php on line 7
+[14-Jan-2025 01:58:53 UTC] PHP Warning:  Undefined array key "amount" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment_update.php on line 8
+[14-Jan-2025 01:58:53 UTC] PHP Warning:  Undefined array key "email" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment_update.php on line 9
+[14-Jan-2025 01:58:53 UTC] PHP Warning:  Undefined array key "name" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment_update.php on line 10
+[14-Jan-2025 01:58:53 UTC] PHP Warning:  Undefined array key "billplz" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment_update.php on line 15
+[14-Jan-2025 01:58:53 UTC] PHP Warning:  Trying to access array offset on value of type null in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment_update.php on line 15
+[14-Jan-2025 01:58:53 UTC] PHP Warning:  Undefined array key "billplz" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment_update.php on line 16
+[14-Jan-2025 01:58:53 UTC] PHP Warning:  Trying to access array offset on value of type null in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment_update.php on line 16
+[14-Jan-2025 01:58:53 UTC] PHP Warning:  Undefined array key "billplz" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment_update.php on line 17
+[14-Jan-2025 01:58:53 UTC] PHP Warning:  Trying to access array offset on value of type null in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment_update.php on line 17
+[14-Jan-2025 01:58:53 UTC] PHP Warning:  Undefined array key "billplz" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment_update.php on line 18
+[14-Jan-2025 01:58:53 UTC] PHP Warning:  Trying to access array offset on value of type null in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment_update.php on line 18
+[14-Jan-2025 01:58:53 UTC] PHP Warning:  Undefined array key "billplz" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment_update.php on line 22
+[14-Jan-2025 01:58:53 UTC] PHP Warning:  Trying to access array offset on value of type null in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment_update.php on line 22
+[14-Jan-2025 01:58:53 UTC] PHP Warning:  Undefined array key "billplz" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment_update.php on line 30
+[14-Jan-2025 01:58:53 UTC] PHP Warning:  Trying to access array offset on value of type null in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/payment_update.php on line 30
+[14-Jan-2025 01:58:59 UTC] PHP Warning:  Undefined array key "eventid" in /home4/humancmt/public_html/ndhos/mmlink/mymemberlink/api/delete_event.php on line 9

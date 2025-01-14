@@ -16,18 +16,28 @@ include_once("dbconnect.php");
 $email = $_POST['email'];
 $password = sha1($_POST['password']); // Hash the password using SHA-1 for comparison
 
-// SQL query to check if a user with the provided email and hashed password exists in `tbl_admins`
-$sqllogin = "SELECT `user_id`, `user_email`, `user_pass` FROM `tbl_users` WHERE `user_email` = '$email' AND `user_pass` = '$password'";
+// SQL query to check if a user with the provided email and hashed password exists in tbl_users
+$sqllogin = "SELECT user_id, user_email, user_name, user_phoneNum, user_pass FROM tbl_users WHERE user_email = '$email' AND user_pass = '$password'";
+
+// Perform the query
 $result = $conn->query($sqllogin);
 
+// Send response based on the query result
 if ($result->num_rows > 0) {
-    $userdata = $result->fetch_assoc();
-    $response = array('status' => 'success', 'data' => array('user_id' => $userdata['user_id']));
+    $userlist = array();
+    while ($row = $result->fetch_assoc()) {
+        $userlist['userid'] = $row['user_id'];
+        $userlist['useremail'] = $row['user_email'];
+        $userlist['username'] = $row['user_name'];
+        $userlist['userphone'] = $row['user_phoneNum'];
+    }
+    $response = array('status' => 'success', 'data' => $userlist);
 } else {
     $response = array('status' => 'failed', 'data' => null);
 }
 
-sendJsonResponse($response); // Send the JSON response
+// Send the JSON response
+sendJsonResponse($response);
 
 // Function to send a JSON response
 function sendJsonResponse($sentArray)
@@ -35,4 +45,6 @@ function sendJsonResponse($sentArray)
     header('Content-Type: application/json'); // Set response header to JSON format
     echo json_encode($sentArray); // Convert the array to JSON and output it
 }
+
+$conn->close();
 ?>
